@@ -1,24 +1,32 @@
 {
   "compilerOptions": {
-    "outDir": "./build",
-    "target": "es2018",
-    "module": "commonjs",
+    "outDir": "./dist",
     "baseUrl": "./src",
     "paths": {
       "src/*": ["@/*"]
     },
 
-    "strict": true,
+    "target": "es6",
+    "module": "commonjs",
+    "rootDir": "./src",
     "esModuleInterop": true,
-    "resolveJsonModule": true,
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "removeComments": true,
+    "noLib": false,
+    "lib": ["es2015", "es2019", "es2020"],
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
+    "strictNullChecks": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "moduleResolution": "Node",
-    "typeRoots": ["./src/types"],
-    "declaration": true
+    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true,
+    "downlevelIteration": true,
+    "declaration": true,
+    "typeRoots": ["./src/@types"]
   },
-  "include": ["src/**/*.ts", "src/*.ts", "files/*.ts"],
+
+  "include": ["src/**/*.json", "src/**/*.ts", "src/*.ts", "files/*.ts", "node_modules/multer"],
   "exclude": ["node_modules", "dist"]
 }
