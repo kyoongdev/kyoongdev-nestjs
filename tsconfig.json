@@ -3,6 +3,11 @@
     "outDir": "./build",
     "target": "es2018",
     "module": "commonjs",
+    "baseUrl": "./src",
+    "paths": {
+      "src/*": ["@/*"]
+    },
+
     "strict": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
