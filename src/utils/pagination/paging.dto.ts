@@ -15,6 +15,11 @@ export class PagingDTO {
   #skip: number;
   #take: number;
 
+  set(page: number, limit: number) {
+    this.page = page;
+    this.limit = limit;
+  }
+
   public getSkipTake(): SkipTake {
     this.#take = Number(this.limit) || 20;
     this.#skip = (Number(this.page) - 1) * this.#take;
