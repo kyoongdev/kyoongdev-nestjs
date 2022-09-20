@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createPropertyDecorator = void 0;
 const lodash_1 = require("lodash");
-const swagger_1 = require("utils/swagger");
+const swagger_1 = require("../swagger");
 const validate_utils_1 = require("./validate-utils");
 function createPropertyDecorator(metakey, metadata, overrideExisting = true, typeOptions = {}, validation) {
     return (target, propertyKey) => {

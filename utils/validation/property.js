@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Property = void 0;
-const swagger_1 = require("utils/swagger");
+const swagger_1 = require("../swagger");
 const property_utils_1 = require("./property-utils");
 const Property = ({ apiProperty = {}, validation, overrideExisting, typeOptions = {} }) => {
     var _a;

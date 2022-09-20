@@ -1,4 +1,4 @@
-import { Property } from 'utils/validation';
+import { Property } from '../validation';
 
 import type { PagingMetaDTOInterface } from './meta.interface';
 

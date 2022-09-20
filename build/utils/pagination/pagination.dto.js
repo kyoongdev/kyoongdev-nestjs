@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PaginationDTO = void 0;
-const validation_1 = require("utils/validation");
+const validation_1 = require("../validation");
 const meta_dto_1 = require("./meta.dto");
 class PaginationDTO {
     constructor(data, { paging, count }) {

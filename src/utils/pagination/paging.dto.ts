@@ -1,4 +1,4 @@
-import { Property } from 'utils/validation';
+import { Property } from '../validation';
 
 export type SkipTake = {
   skip: number;

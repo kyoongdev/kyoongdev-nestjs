@@ -2,7 +2,7 @@ import { TypeOptions } from 'class-transformer';
 import { ValidationOptions } from 'class-validator';
 import { isUndefined, negate, pickBy } from 'lodash';
 
-import { DECORATORS, METADATA_FACTORY_NAME } from 'utils/swagger';
+import { DECORATORS, METADATA_FACTORY_NAME } from '../swagger';
 
 import { Validate } from './validate-utils';
 
