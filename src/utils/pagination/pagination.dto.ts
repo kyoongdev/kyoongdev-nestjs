@@ -1,6 +1,5 @@
 import { Property } from '../validation';
-import { PagingMetaDTO } from './meta.dto';
-import { PagingMetaDTOInterface } from './meta.interface';
+import { PagingMetaDTO, PagingMetaDTOInterface } from './meta.dto';
 
 export class PaginationDTO<T extends object> {
   @Property({ apiProperty: { isArray: true } })

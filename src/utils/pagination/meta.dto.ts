@@ -1,6 +1,9 @@
 import { Property } from '../validation';
-
-import type { PagingMetaDTOInterface } from './meta.interface';
+import { PagingDTO } from './paging.dto';
+export interface PagingMetaDTOInterface {
+  paging: PagingDTO;
+  count: number;
+}
 
 export class PagingMetaDTO {
   @Property({ apiProperty: { type: 'number' } })

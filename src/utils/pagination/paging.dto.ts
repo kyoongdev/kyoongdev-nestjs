@@ -11,15 +11,14 @@ export class PagingDTO {
 
   @Property({ apiProperty: { type: 'number', minimum: 20, default: 20 } })
   limit?: number;
-  constructor(page: number, limit: number) {
-    this.page = page;
-    this.limit = limit;
-  }
+
+  #skip: number;
+  #take: number;
 
   public getSkipTake(): SkipTake {
-    const take = Number(this.limit) || 20;
-    const skip = (Number(this.page) - 1) * take;
+    this.#take = Number(this.limit) || 20;
+    this.#skip = (Number(this.page) - 1) * this.#take;
 
-    return { skip, take };
+    return { skip: this.#skip, take: this.#take };
   }
 }
