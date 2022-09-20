@@ -28,6 +28,10 @@ class PagingDTO {
         _PagingDTO_skip.set(this, void 0);
         _PagingDTO_take.set(this, void 0);
     }
+    set(page, limit) {
+        this.page = page;
+        this.limit = limit;
+    }
     getSkipTake() {
         __classPrivateFieldSet(this, _PagingDTO_take, Number(this.limit) || 20, "f");
         __classPrivateFieldSet(this, _PagingDTO_skip, (Number(this.page) - 1) * __classPrivateFieldGet(this, _PagingDTO_take, "f"), "f");
