@@ -1,5 +1,5 @@
 import type { ApiPropertyOptions } from '@nestjs/swagger';
-import { DECORATORS, getEnumType, getEnumValues, getTypeIsArrayTuple, isEnumArray } from 'utils/swagger';
+import { DECORATORS, getEnumType, getEnumValues, getTypeIsArrayTuple, isEnumArray } from '../swagger';
 import type { Property as PropertyProps } from './property-type';
 import { createPropertyDecorator } from './property-utils';
 
