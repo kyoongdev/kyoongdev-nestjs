@@ -66,7 +66,7 @@ export function addEnumSchema(
   }
 }
 
-export const isEnumArray = <T extends Partial<Record<'isArray' | 'enum', any>>>(obj: Record<string, any>): obj is T =>
+export const isEnumArray = <T extends Partial<Record<'isArray' | 'enum', any>>(obj: Record<string, any>): obj is T =>
   obj.isArray && obj.enum;
 
 export const isEnumDefined = <T extends Partial<Record<'enum', any>>>(obj: Record<string, any>): obj is T => obj.enum;
