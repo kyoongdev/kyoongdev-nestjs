@@ -3,9 +3,8 @@ export declare type SkipTake = {
     take: number;
 };
 export declare class PagingDTO {
-    #private;
     page?: number;
     limit?: number;
-    set(page: number, limit: number): void;
+    constructor(page: number, limit: number);
     getSkipTake(): SkipTake;
 }

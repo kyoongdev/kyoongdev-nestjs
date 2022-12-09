@@ -3,7 +3,7 @@ import { ApiResponseMetadata, ApiResponseOptions } from './decorator-type';
 
 import { applyDecorators, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBearerAuth, ApiBody, ApiConsumes, ApiResponse, getSchemaPath } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiExtraModels, ApiResponse, getSchemaPath } from '@nestjs/swagger';
 import { isUndefined, negate, omit, pickBy } from 'lodash';
 import { DECORATORS } from './constants';
 import { createBody, createHeader, createParam, createQuery, getTypeIsArrayTuple } from './helper';
@@ -68,6 +68,9 @@ export const ResponseApi = (options: ApiResponseOptions & { isPaging?: boolean }
           },
           descriptor.value
         );
+
+        ApiExtraModels(type)(target, key, descriptor);
+
         return ResponseApi({
           schema: {
             properties: {

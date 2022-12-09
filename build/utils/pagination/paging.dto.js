@@ -8,37 +8,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
-    if (kind === "m") throw new TypeError("Private method is not writable");
-    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
-    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
-    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
-};
-var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
-    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
-    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
-    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
-};
-var _PagingDTO_skip, _PagingDTO_take;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PagingDTO = void 0;
 const validation_1 = require("../validation");
 class PagingDTO {
-    constructor() {
-        _PagingDTO_skip.set(this, void 0);
-        _PagingDTO_take.set(this, void 0);
-    }
-    set(page, limit) {
+    constructor(page, limit) {
         this.page = page;
         this.limit = limit;
     }
     getSkipTake() {
-        __classPrivateFieldSet(this, _PagingDTO_take, Number(this.limit) || 20, "f");
-        __classPrivateFieldSet(this, _PagingDTO_skip, (Number(this.page) - 1) * __classPrivateFieldGet(this, _PagingDTO_take, "f"), "f");
-        return { skip: __classPrivateFieldGet(this, _PagingDTO_skip, "f"), take: __classPrivateFieldGet(this, _PagingDTO_take, "f") };
+        const take = Number(this.limit) || 20;
+        const skip = (Number(this.page) - 1) * take;
+        return { skip, take };
     }
 }
-_PagingDTO_skip = new WeakMap(), _PagingDTO_take = new WeakMap();
 __decorate([
     (0, validation_1.Property)({ apiProperty: { type: 'number', minimum: 1, default: 1 } }),
     __metadata("design:type", Number)
