@@ -111,6 +111,7 @@ export const ValidateApiProperty = ({ apiProperty, validation }: ValidateProps):
       defaultMessage: buildMessage((eachPrefix) => eachPrefix + '$property must be a string', validation),
     });
   }
+
   if (apiProperty.nullable) {
     validateByOptions.constraints = validateByOptions.constraints
       ? [...validateByOptions.constraints, (object: any, value: any) => value !== null]

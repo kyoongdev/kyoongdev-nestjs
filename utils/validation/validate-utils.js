@@ -50,7 +50,7 @@ const ValidateApiProperty = ({ apiProperty, validation }) => {
     else if (apiProperty.type === 'number') {
         validateByOptions = (0, exports.ValidateByOption)({
             name: class_validator_1.IS_NUMBER,
-            validate: (value, args) => (0, class_validator_1.isNumber)(value, args === null || args === void 0 ? void 0 : args.constraints[0]),
+            validate: (value, args) => { var _a; return (0, class_validator_1.isNumber)(value, (_a = args === null || args === void 0 ? void 0 : args.constraints) === null || _a === void 0 ? void 0 : _a[0]); },
             defaultMessage: (0, class_validator_1.buildMessage)((eachPrefix) => eachPrefix + '$property must be a number conforming to the specified constraints', validation),
         });
     }
@@ -72,7 +72,7 @@ const ValidateApiProperty = ({ apiProperty, validation }) => {
         validateByOptions = (0, exports.ValidateByOption)({
             name: class_validator_1.IS_ENUM,
             constraints: [apiProperty.enum],
-            validate: (value, args) => (0, class_validator_1.isEnum)(value, args === null || args === void 0 ? void 0 : args.constraints[0]),
+            validate: (value, args) => { var _a; return (0, class_validator_1.isEnum)(value, (_a = args === null || args === void 0 ? void 0 : args.constraints) === null || _a === void 0 ? void 0 : _a[0]); },
             defaultMessage: (0, class_validator_1.buildMessage)((eachPrefix) => eachPrefix + '$property must be a valid enum value', validation),
         });
     }
