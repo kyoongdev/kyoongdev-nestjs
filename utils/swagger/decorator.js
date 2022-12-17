@@ -45,6 +45,7 @@ const ResponseApi = (options) => {
             if (descriptor) {
                 const responses = Reflect.getMetadata(constants_1.DECORATORS.API_RESPONSE, descriptor.value) || {};
                 Reflect.defineMetadata(constants_1.DECORATORS.API_RESPONSE, Object.assign(Object.assign({}, responses), groupedMetadata), descriptor.value);
+                (0, swagger_1.ApiExtraModels)(type)(target, key, descriptor);
                 return (0, exports.ResponseApi)({
                     schema: {
                         properties: {

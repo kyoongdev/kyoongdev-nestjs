@@ -79,7 +79,7 @@ export const ValidateApiProperty = ({ apiProperty, validation }: ValidateProps):
   } else if (apiProperty.type === 'number') {
     validateByOptions = ValidateByOption({
       name: IS_NUMBER,
-      validate: (value, args): boolean => isNumber(value, args?.constraints[0]),
+      validate: (value, args): boolean => isNumber(value, args?.constraints?.[0]),
       defaultMessage: buildMessage(
         (eachPrefix) => eachPrefix + '$property must be a number conforming to the specified constraints',
         validation
@@ -101,7 +101,7 @@ export const ValidateApiProperty = ({ apiProperty, validation }: ValidateProps):
     validateByOptions = ValidateByOption({
       name: IS_ENUM,
       constraints: [apiProperty.enum],
-      validate: (value, args): boolean => isEnum(value, args?.constraints[0]),
+      validate: (value, args): boolean => isEnum(value, args?.constraints?.[0]),
       defaultMessage: buildMessage((eachPrefix) => eachPrefix + '$property must be a valid enum value', validation),
     });
   } else {

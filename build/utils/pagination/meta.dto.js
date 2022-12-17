@@ -10,13 +10,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PagingMetaDTO = void 0;
+const lodash_1 = require("lodash");
 const validation_1 = require("../validation");
 class PagingMetaDTO {
     constructor({ paging, count }) {
         this.total = count;
-        this.page = paging.page || 1;
-        this.limit = paging.limit || 10;
+        this.page = (0, lodash_1.isNaN)(Number(paging.page)) ? 1 : Number(paging.page);
+        this.limit = (0, lodash_1.isNaN)(Number(paging.limit)) ? 10 : Number(paging.limit);
         this.skip = paging.getSkipTake().skip;
+        this.hasPrev = this.page > 1;
+        this.hasNext = this.page * this.limit < count;
     }
 }
 __decorate([
