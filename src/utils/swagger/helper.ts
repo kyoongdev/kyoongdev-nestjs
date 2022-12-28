@@ -106,6 +106,10 @@ export const createQuery = (query: ApiQueryOptions): ParamDecorators => {
     addEnumSchema(param, query);
   }
 
+  if (!query.required) {
+    param.required = false;
+  }
+
   if (isArray) {
     param.isArray = isArray;
   }
