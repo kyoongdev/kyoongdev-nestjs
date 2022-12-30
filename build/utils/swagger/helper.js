@@ -66,6 +66,9 @@ const createQuery = (query) => {
     else if ((0, enum_utils_1.isEnumDefined)(query)) {
         (0, enum_utils_1.addEnumSchema)(param, query);
     }
+    if (!query.required) {
+        param.required = false;
+    }
     if (isArray) {
         param.isArray = isArray;
     }

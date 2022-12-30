@@ -14,6 +14,7 @@ export const Property = ({ apiProperty = {}, validation, overrideExisting, typeO
   if (apiProperty.nullable && typeof apiProperty.type === 'string') {
     apiProperty.example = `${apiProperty.type} | null`;
   }
+  apiProperty.required = !apiProperty.nullable;
 
   if (isEnumArray(apiProperty)) {
     apiProperty.type = 'array';
