@@ -82,8 +82,12 @@ const ResponseApi = (options, code = 200) => {
             }
         };
     }
-    (0, common_1.applyDecorators)((0, common_1.HttpCode)(code));
-    return (0, common_1.applyDecorators)((0, swagger_1.ApiResponse)(options));
+    return (target, key, descriptor) => {
+        if (descriptor) {
+            (0, common_1.HttpCode)(code)(target, key, descriptor);
+            (0, swagger_1.ApiResponse)(options)(target, key, descriptor);
+        }
+    };
 };
 exports.ResponseApi = ResponseApi;
 const ApiFile = (fieldName = 'file') => {

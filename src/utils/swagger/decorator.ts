@@ -110,8 +110,13 @@ export const ResponseApi = (
       }
     };
   }
-  applyDecorators(HttpCode(code));
-  return applyDecorators(ApiResponse(options));
+
+  return (target: object, key?: string | symbol, descriptor?: TypedPropertyDescriptor<any>): any => {
+    if (descriptor) {
+      HttpCode(code)(target, key as any, descriptor);
+      ApiResponse(options)(target, key as any, descriptor);
+    }
+  };
 };
 export const ApiFile = (fieldName = 'file') => {
   return applyDecorators(
