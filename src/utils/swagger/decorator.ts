@@ -1,7 +1,7 @@
 import type { ParamDecorators, SwaggerOptions } from './decorator-type';
 import { ApiResponseMetadata, ApiResponseOptions } from './decorator-type';
 
-import { applyDecorators, UseGuards, UseInterceptors } from '@nestjs/common';
+import { applyDecorators, HttpCode, HttpStatus, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiBody, ApiConsumes, ApiExtraModels, ApiResponse, getSchemaPath } from '@nestjs/swagger';
 import { isUndefined, negate, omit, pickBy } from 'lodash';
@@ -42,7 +42,10 @@ export const RequestApi = (swaggerOptions: SwaggerOptions): MethodDecorator => {
   };
 };
 
-export const ResponseApi = (options: ApiResponseOptions & { isPaging?: boolean }): MethodDecorator & ClassDecorator => {
+export const ResponseApi = (
+  options: ApiResponseOptions & { isPaging?: boolean },
+  code = 200 as HttpStatus
+): MethodDecorator & ClassDecorator => {
   const [type, isArray] = getTypeIsArrayTuple(
     (options as ApiResponseMetadata).type,
     (options as ApiResponseMetadata).isArray
@@ -107,6 +110,7 @@ export const ResponseApi = (options: ApiResponseOptions & { isPaging?: boolean }
       }
     };
   }
+  applyDecorators(HttpCode(code));
   return applyDecorators(ApiResponse(options));
 };
 export const ApiFile = (fieldName = 'file') => {

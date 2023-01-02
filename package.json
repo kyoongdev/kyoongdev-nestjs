@@ -1,6 +1,6 @@
 {
   "name": "kyoongdev-nestjs",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "main": "build/index.js",
   "bin": "build/express/util/index.js",
   "license": "MIT",

@@ -11,6 +11,7 @@ const Property = ({ apiProperty = {}, validation, overrideExisting, typeOptions 
     if (apiProperty.nullable && typeof apiProperty.type === 'string') {
         apiProperty.example = `${apiProperty.type} | null`;
     }
+    apiProperty.required = !apiProperty.nullable;
     if ((0, swagger_1.isEnumArray)(apiProperty)) {
         apiProperty.type = 'array';
         const enumValues = (0, swagger_1.getEnumValues)(apiProperty.enum);

@@ -32,7 +32,7 @@ const RequestApi = (swaggerOptions) => {
     };
 };
 exports.RequestApi = RequestApi;
-const ResponseApi = (options) => {
+const ResponseApi = (options, code = 200) => {
     const [type, isArray] = (0, helper_1.getTypeIsArrayTuple)(options.type, options.isArray);
     if (options.isPaging && !!type) {
         options.type = type;
@@ -82,6 +82,7 @@ const ResponseApi = (options) => {
             }
         };
     }
+    (0, common_1.applyDecorators)((0, common_1.HttpCode)(code));
     return (0, common_1.applyDecorators)((0, swagger_1.ApiResponse)(options));
 };
 exports.ResponseApi = ResponseApi;
