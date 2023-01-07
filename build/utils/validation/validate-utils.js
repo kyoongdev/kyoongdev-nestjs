@@ -12,9 +12,6 @@ const ValidateOption = (options, typeOptions = {}, apiProperty, validationOption
         if (typeof apiProperty.type === 'string' && apiProperty.type.toString().toLowerCase() === 'number') {
             (0, class_transformer_1.Type)(() => Number)(object, propertyName);
         }
-        if (typeof apiProperty.type === 'string' && apiProperty.type.toString().toLowerCase() === 'boolean') {
-            (0, class_transformer_1.Type)(() => Boolean)(object, propertyName);
-        }
         if (typeof apiProperty.type === 'string' && apiProperty.type.toString().toLowerCase() === '') {
             (0, class_transformer_1.Type)(() => Number)(object, propertyName);
         }
