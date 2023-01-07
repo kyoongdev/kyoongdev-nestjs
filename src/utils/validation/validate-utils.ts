@@ -43,10 +43,6 @@ export const ValidateOption = (
       TypeFormer(() => Number)(object, propertyName);
     }
 
-    if (typeof apiProperty.type === 'string' && apiProperty.type.toString().toLowerCase() === 'boolean') {
-      TypeFormer(() => Boolean)(object, propertyName);
-    }
-
     if (typeof apiProperty.type === 'string' && apiProperty.type.toString().toLowerCase() === '') {
       TypeFormer(() => Number)(object, propertyName);
     }
