@@ -1,8 +1,43 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Property = void 0;
+exports.Property = exports.ToBoolean = void 0;
+const class_transformer_1 = require("class-transformer");
 const swagger_1 = require("../swagger");
 const property_utils_1 = require("./property-utils");
+const ToBoolean = () => {
+    const toPlain = (0, class_transformer_1.Transform)(({ value }) => {
+        return value;
+    }, {
+        toPlainOnly: true,
+    });
+    const toClass = (target, key) => {
+        return (0, class_transformer_1.Transform)(({ obj }) => {
+            return valueToBoolean(obj[key]);
+        }, {
+            toClassOnly: true,
+        })(target, key);
+    };
+    return function (target, key) {
+        toPlain(target, key);
+        toClass(target, key);
+    };
+};
+exports.ToBoolean = ToBoolean;
+const valueToBoolean = (value) => {
+    if (value === null || value === undefined) {
+        return undefined;
+    }
+    if (typeof value === 'boolean') {
+        return value;
+    }
+    if (['true', 'on', 'yes', '1'].includes(value.toLowerCase())) {
+        return true;
+    }
+    if (['false', 'off', 'no', '0'].includes(value.toLowerCase())) {
+        return false;
+    }
+    return value;
+};
 const Property = ({ apiProperty = {}, validation, overrideExisting, typeOptions = {} }) => {
     var _a;
     const [type, isArray] = (0, swagger_1.getTypeIsArrayTuple)(apiProperty.type, (_a = apiProperty.isArray) !== null && _a !== void 0 ? _a : false);

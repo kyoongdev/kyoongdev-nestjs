@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ToBoolean = exports.createPropertyDecorator = void 0;
-const class_transformer_1 = require("class-transformer");
+exports.createPropertyDecorator = void 0;
 const lodash_1 = require("lodash");
 const swagger_1 = require("../swagger");
 const validate_utils_1 = require("./validate-utils");
@@ -28,38 +27,4 @@ function createPropertyDecorator(metakey, metadata, overrideExisting = true, typ
     };
 }
 exports.createPropertyDecorator = createPropertyDecorator;
-const ToBoolean = () => {
-    const toPlain = (0, class_transformer_1.Transform)(({ value }) => {
-        return value;
-    }, {
-        toPlainOnly: true,
-    });
-    const toClass = (target, key) => {
-        return (0, class_transformer_1.Transform)(({ obj }) => {
-            return valueToBoolean(obj[key]);
-        }, {
-            toClassOnly: true,
-        })(target, key);
-    };
-    return function (target, key) {
-        toPlain(target, key);
-        toClass(target, key);
-    };
-};
-exports.ToBoolean = ToBoolean;
-const valueToBoolean = (value) => {
-    if (value === null || value === undefined) {
-        return undefined;
-    }
-    if (typeof value === 'boolean') {
-        return value;
-    }
-    if (['true', 'on', 'yes', '1'].includes(value.toLowerCase())) {
-        return true;
-    }
-    if (['false', 'off', 'no', '0'].includes(value.toLowerCase())) {
-        return false;
-    }
-    return value;
-};
 //# sourceMappingURL=property-utils.js.map
