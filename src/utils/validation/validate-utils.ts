@@ -1,5 +1,5 @@
 import { ApiPropertyOptions } from '@nestjs/swagger';
-import { Type as TypeFormer, TypeOptions } from 'class-transformer';
+import { Transform, Type as TypeFormer, TypeOptions } from 'class-transformer';
 import {
   buildMessage,
   isArray,
@@ -49,6 +49,10 @@ export const ValidateOption = (
 
     if (apiProperty.nullable) {
       IsOptional(validationOptions)(object, propertyName);
+    }
+
+    if (apiProperty.isArray) {
+      Transform(({ value }) => (Array.isArray(value) ? value : Array(value)))(object, propertyName);
     }
 
     registerDecorator({
