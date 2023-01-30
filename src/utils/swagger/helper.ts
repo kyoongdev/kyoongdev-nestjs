@@ -1,5 +1,7 @@
+import { applyDecorators } from '@nestjs/common';
 import { ApiBodyOptions, ApiHeaderOptions, ApiParamOptions, ApiQueryOptions } from '@nestjs/swagger';
 import { SchemaObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
+import { Transform } from 'class-transformer';
 import { isArray, isNil, isUndefined, negate, omit, pickBy } from 'lodash';
 
 import {
@@ -112,6 +114,7 @@ export const createQuery = (query: ApiQueryOptions): ParamDecorators => {
 
   if (isArray) {
     param.isArray = isArray;
+    applyDecorators(Transform(({ value }) => (Array.isArray(value) ? value : Array(value))));
   }
 
   return {
