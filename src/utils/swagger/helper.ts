@@ -114,7 +114,6 @@ export const createQuery = (query: ApiQueryOptions): ParamDecorators => {
 
   if (isArray) {
     param.isArray = isArray;
-    applyDecorators(Transform(({ value }) => (Array.isArray(value) ? value : Array(value))));
   }
 
   return {

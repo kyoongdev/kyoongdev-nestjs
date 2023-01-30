@@ -4,6 +4,7 @@ import { ApiResponseMetadata, ApiResponseOptions } from './decorator-type';
 import { applyDecorators, HttpCode, HttpStatus, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiBody, ApiConsumes, ApiExtraModels, ApiResponse, getSchemaPath } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
 import { isUndefined, negate, omit, pickBy } from 'lodash';
 import { DECORATORS } from './constants';
 import { createBody, createHeader, createParam, createQuery, getTypeIsArrayTuple } from './helper';
@@ -23,7 +24,9 @@ export const RequestApi = (swaggerOptions: SwaggerOptions): MethodDecorator => {
     for (const { metadata, initial } of paramDecorators) {
       if (descriptor) {
         const parameters = Reflect.getMetadata(DECORATORS.API_PARAMETERS, descriptor.value) || [];
-
+        if (metadata.isArray) {
+          Transform(({ value }) => (Array.isArray(value) ? value : Array(value)))(target, key, descriptor);
+        }
         Reflect.defineMetadata(
           DECORATORS.API_PARAMETERS,
           [

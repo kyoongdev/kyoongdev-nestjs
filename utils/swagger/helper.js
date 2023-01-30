@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createBody = exports.createQuery = exports.createHeader = exports.createParam = exports.getTypeIsArrayTuple = void 0;
+const common_1 = require("@nestjs/common");
+const class_transformer_1 = require("class-transformer");
 const lodash_1 = require("lodash");
 const decorator_type_1 = require("./decorator-type");
 const enum_utils_1 = require("./enum-utils");
@@ -71,6 +73,7 @@ const createQuery = (query) => {
     }
     if (isArray) {
         param.isArray = isArray;
+        (0, common_1.applyDecorators)((0, class_transformer_1.Transform)(({ value }) => (Array.isArray(value) ? value : Array(value))));
     }
     return {
         metadata: param,
