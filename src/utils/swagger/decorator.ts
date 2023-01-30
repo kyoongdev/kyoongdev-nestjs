@@ -25,7 +25,7 @@ export const RequestApi = (swaggerOptions: SwaggerOptions): MethodDecorator => {
       if (descriptor) {
         const parameters = Reflect.getMetadata(DECORATORS.API_PARAMETERS, descriptor.value) || [];
         if (metadata.isArray) {
-          Transform(({ value }) => (Array.isArray(value) ? value : Array(value)))(target, key, descriptor);
+          Transform(({ value }) => (Array.isArray(value) ? value : Array(value)))(target, key);
         }
         Reflect.defineMetadata(
           DECORATORS.API_PARAMETERS,
