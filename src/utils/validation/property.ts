@@ -1,4 +1,4 @@
-import type { ApiPropertyOptions } from '@nestjs/swagger';
+import { ApiPropertyOptional, ApiPropertyOptions } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { DECORATORS, getEnumType, getEnumValues, getTypeIsArrayTuple, isEnumArray } from '../swagger';
 import type { Property as PropertyProps } from './property-type';
@@ -76,14 +76,10 @@ export const Property = ({ apiProperty = {}, validation, overrideExisting, typeO
     (apiProperty as ApiPropertyOptions).type = getEnumType(enumValues);
   }
 
-  if (Array.isArray(apiProperty.type)) {
-    apiProperty.type = 'array';
-    apiProperty.items = {
-      type: 'array',
-      items: {
-        type: apiProperty.type[0],
-      },
-    };
+  if (Array.isArray(apiProperty.type) || isArray) {
+    apiProperty.example = apiProperty.example
+      ? apiProperty.example
+      : `${apiProperty.type}[] ${apiProperty.nullable ? '| null' : ''}`;
   }
 
   return createPropertyDecorator(
