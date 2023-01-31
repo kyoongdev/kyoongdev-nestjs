@@ -53,7 +53,7 @@ export const Property = ({ apiProperty = {}, validation, overrideExisting, typeO
     isArray,
   };
 
-  if (apiProperty.nullable && typeof apiProperty.type === 'string' && !apiProperty.example) {
+  if (apiProperty.nullable && typeof apiProperty.type === 'string' && !apiProperty.example && !apiProperty.isArray) {
     apiProperty.example = `${apiProperty.type} | null`;
   }
 
