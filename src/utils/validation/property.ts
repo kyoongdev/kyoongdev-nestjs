@@ -76,7 +76,7 @@ export const Property = ({ apiProperty = {}, validation, overrideExisting, typeO
     (apiProperty as ApiPropertyOptions).type = getEnumType(enumValues);
   }
 
-  if (Array.isArray(apiProperty.type) || isArray) {
+  if ((Array.isArray(apiProperty.type) || isArray) && typeof apiProperty.type === 'string') {
     apiProperty.example = apiProperty.example
       ? apiProperty.example
       : `${apiProperty.type}[] ${apiProperty.nullable ? '| null' : ''}`;
