@@ -1,5 +1,11 @@
 import type { Type } from '@nestjs/common';
-import type { ApiBodyOptions, ApiHeaderOptions, ApiParamOptions, ApiQueryOptions } from '@nestjs/swagger';
+import type {
+  ApiBodyOptions,
+  ApiHeaderOptions,
+  ApiOperationOptions,
+  ApiParamOptions,
+  ApiQueryOptions,
+} from '@nestjs/swagger';
 import type {
   ParameterObject,
   ReferenceObject,
@@ -10,6 +16,7 @@ import type {
 import type { SwaggerEnumType } from '@nestjs/swagger/dist/types/swagger-enum.type';
 
 export interface SwaggerOptions {
+  summary?: ApiOperationOptions;
   headers?: ApiHeaderOptions | ApiHeaderOptions[];
   params?: ApiParamOptions | ApiParamOptions[];
   query?: ApiQueryOptions | ApiQueryOptions[];

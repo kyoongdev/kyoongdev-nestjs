@@ -1,9 +1,24 @@
 import type { ParamDecorators, SwaggerOptions } from './decorator-type';
 import { ApiResponseMetadata, ApiResponseOptions } from './decorator-type';
 
-import { applyDecorators, HttpCode, HttpStatus, UseGuards, UseInterceptors } from '@nestjs/common';
+import {
+  applyDecorators,
+  createParamDecorator,
+  HttpCode,
+  HttpStatus,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBearerAuth, ApiBody, ApiConsumes, ApiExtraModels, ApiResponse, getSchemaPath } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
+  ApiExtraModels,
+  ApiOperationOptions,
+  ApiResponse,
+  getSchemaPath,
+} from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { isUndefined, negate, omit, pickBy } from 'lodash';
 import { DECORATORS } from './constants';
@@ -12,7 +27,7 @@ import { createBody, createHeader, createParam, createQuery, getTypeIsArrayTuple
 /** @function */
 /** Usage : Only Method Decorator */
 export const RequestApi = (swaggerOptions: SwaggerOptions): MethodDecorator => {
-  const { headers, params, query, body } = swaggerOptions;
+  const { headers, params, query, body, summary } = swaggerOptions;
   const paramDecorators: ParamDecorators[] = [];
 
   if (headers) paramDecorators.push(...(Array.isArray(headers) ? headers.map(createHeader) : [createHeader(headers)]));
@@ -21,6 +36,20 @@ export const RequestApi = (swaggerOptions: SwaggerOptions): MethodDecorator => {
   if (body) paramDecorators.push(...(Array.isArray(body) ? body.map(createBody) : [createBody(body)]));
 
   return (target: object, key: string | symbol, descriptor: PropertyDescriptor) => {
+    if (summary) {
+      Reflect.defineMetadata(
+        DECORATORS.API_OPERATION,
+        pickBy(
+          {
+            summary: '',
+            ...summary,
+          } as ApiOperationOptions,
+          negate(isUndefined)
+        ),
+        descriptor.value
+      );
+    }
+
     for (const { metadata, initial } of paramDecorators) {
       if (descriptor) {
         const parameters = Reflect.getMetadata(DECORATORS.API_PARAMETERS, descriptor.value) || [];
