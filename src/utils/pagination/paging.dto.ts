@@ -1,9 +1,9 @@
 import { Property } from '../validation';
 
-export type SkipTake = {
+export interface SkipTake {
   skip: number;
   take: number;
-};
+}
 
 export class PagingDTO {
   @Property({ apiProperty: { type: 'number', minimum: 1, default: 1 } })

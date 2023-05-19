@@ -1,11 +1,11 @@
 {
-  "name": "kyoongdev-nestjs",
-  "version": "1.4.0",
+  "name": "wemacu-nestjs",
+  "version": "1.0.0",
   "main": "build/index.js",
   "bin": "build/express/util/index.js",
   "license": "MIT",
-  "repository": "https://github.com/kyoongdev/kyoongdev-nestjs",
-  "author": "kyoongdev <9898junjun2@gmail.com>",
+  "repository": "https://github.com/wemcau/wemacu-nestjs",
+  "author": "wemacu <dev@wemacu.net>",
   "scripts": {
     "clear": "node scripts/clear-build.js",
     "build": "yarn clear && tsc -b && node scripts/copy-build.js",

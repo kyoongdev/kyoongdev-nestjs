@@ -1,73 +1,107 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Nestjs Swagger & Utils Helper
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+본 라이브러리는 **@nestjs/swagger**의 사용 간소화 및 기타 유틸성 기능을 제공하는 라이브러리입니다.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Swagger
 
-## Description
+**`@RequestApi(swaggerOptions : SwaggerOptions)`**
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+스웨거 Request 옵션
 
-## Installation
+- `SwaggerOptions`
+  - summary?: ApiOperationOptions;
+  - headers?: ApiHeaderOptions | ApiHeaderOptions[];
+  - params?: ApiParamOptions | ApiParamOptions[];
+  - query?: ApiQueryOptions | ApiQueryOptions[];
+  - body?: ApiBodyOptions;
 
-```bash
-$ npm install
+**`@ResponseApi(options: ApiResponseOptions & { isPaging?: boolean },code = 200 as HttpStatus)`**
+
+스웨거 Response 옵션
+
+- `ApiResponseOptions = ApiResponseMetadata | ApiResponseSchemaHost`
+
+- `ApiResponseMetadata`
+
+  - status?: number | 'default';
+  - type?: Type<unknown> | Function | [Function] | string;
+  - isArray?: boolean;
+  - description?: string;
+
+- `ApiResponseSchemaHost`
+  - schema: SchemaObject & Partial<ReferenceObject>;
+  - status?: number;
+  - description?: string;
+
+**`@ApiFile(fieldName = "file")`**
+
+스웨거 및 인터셉터 파일 업로드
+
+**`@Auth(guard: Function, name = 'access-token')`**
+
+스웨거 및 UseGuards 가드 사용
+
+**`@Property({ apiProperty = {}, validation, overrideExisting, typeOptions = {} }: PropertyProps)`**
+
+DTO 스웨거 명세 및 Validation (class-transformer, class-validation)
+
+- `Property`
+  - apiProperty?: ApiPropertyOptions;
+  - validation?: ValidationOptions;
+  - overrideExisting?: boolean;
+  - typeOptions?: TypeOptions;
+
+## 페이징 관련
+
+### Request Swagger 용
+
+```ts
+export class PagingDTO {
+  @Property({ apiProperty: { type: 'number', minimum: 1, default: 1 } })
+  page?: number;
+
+  @Property({ apiProperty: { type: 'number', minimum: 20, default: 20 } })
+  limit?: number;
+
+  constructor(page: number, limit: number) {
+    this.page = page;
+    this.limit = limit;
+  }
+
+  public getSkipTake(): SkipTake {
+    const take = Number(this.limit) || 20;
+    const skip = (Number(this.page) - 1) * take;
+
+    return { skip, take };
+  }
+}
 ```
 
-## Running the app
+### Response 데이터 전처리 용
 
-```bash
-# development
-$ npm run start
+```ts
+export class PaginationDTO<T extends object> {
+  @Property({ apiProperty: { isArray: true } })
+  data: T[];
 
-# watch mode
-$ npm run start:dev
+  @Property({ apiProperty: { type: PagingMetaDTO } })
+  paging: PagingMetaDTO;
 
-# production mode
-$ npm run start:prod
+  constructor(data: T[], { paging, count }: PagingMetaDTOInterface) {
+    this.data = data;
+    this.paging = new PagingMetaDTO({ paging, count });
+  }
+}
 ```
 
-## Test
+### 미들웨어 적용
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+```ts
+app.use(PaginationMiddleware);
 ```
 
-## Support
+### Paging Params Decorator
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+```ts
+async function example(@Paging() paging: PagingDTO) {}
+```
