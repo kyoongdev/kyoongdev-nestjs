@@ -2,6 +2,7 @@
 .idea
 
 node_modules
+
 .env
 ./build
 ./express
@@ -14,4 +15,4 @@ scripts
 yarn.lock
 openapi.json
 
-utils
+./utils
