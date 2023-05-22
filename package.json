@@ -15,7 +15,7 @@
     "lint:staged": "lint-staged && yarn lint:fix",
     "test-sdk": "node --trace-warnings --unhandled-rejections=strict build/express/sdk/index.js ./src/example/controllers ./test-sdk",
     "prettier:fix": "prettier **/*.ts  --write",
-    "lint:fix": "eslint --fix --ext .js,.ts ./src && rm -rf ./utils",
+    "lint:fix": "eslint --fix --ext .js,.ts ./src ",
     "pre-commit": "yarn lint-staged"
   },
   "dependencies": {

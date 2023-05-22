@@ -1,19 +1,18 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-import axios, { AxiosRequestHeaders } from 'axios';
+import axios from 'axios';
 import queryString from 'query-string';
 
 import type {
-  ILocation,
-  IKakaoAddress,
-  IKakaoKeyword,
-  KakaoAddressResponse,
-  KakaoKeywordResponse,
-  IKakaoGeocode,
-  KakaoGeocodeResponse,
-  IGoogleGeocode,
+  DistanceProps,
   GoogleGeocode,
   GoogleGeocodeResponse,
-  DistanceProps,
+  IGoogleGeocode,
+  IKakaoAddress,
+  IKakaoGeocode,
+  IKakaoKeyword,
+  ILocation,
+  KakaoAddressResponse,
+  KakaoGeocodeResponse,
+  KakaoKeywordResponse,
 } from './type';
 
 const kakaoApi = axios.create({
@@ -27,7 +26,7 @@ const googleAPI = axios.create({
 class Location {
   private kakaoRestKey: string | undefined;
   private googleRestKey: string | undefined;
-  private headers: AxiosRequestHeaders | null = null;
+  private headers: any | null = null;
 
   constructor({ kakaoRestKey, googleRestKey }: ILocation) {
     this.kakaoRestKey = kakaoRestKey;
@@ -45,7 +44,7 @@ class Location {
   private parseGoogleGeocode(data: GoogleGeocode[]): Array<GoogleGeocodeResponse> {
     const result: Array<GoogleGeocodeResponse> = [];
 
-    data.forEach(row => {
+    data.forEach((row) => {
       const tmpResult: GoogleGeocodeResponse = {
         id: '',
         address_name: row.formatted_address || '',
@@ -55,7 +54,7 @@ class Location {
         region_3depth_h_name: '',
       };
       const addressComponents = row.address_components;
-      addressComponents.forEach(addressComponent => {
+      addressComponents.forEach((addressComponent) => {
         if (addressComponent.types.includes('administrative_area_level_1')) {
           tmpResult.region_1depth_name = addressComponent.long_name;
         } else if (addressComponent.types.includes('sublocality_area_level_2')) {
