@@ -12,7 +12,7 @@
     "start": "nodemon --config nodemon.json",
     "prepublishOnly": "yarn build",
     "prepare": "husky install",
-    "lint:staged": "lint-staged",
+    "lint:staged": "lint-staged && yarn lint:fix",
     "test-sdk": "node --trace-warnings --unhandled-rejections=strict build/express/sdk/index.js ./src/example/controllers ./test-sdk",
     "prettier:fix": "prettier **/*.ts **/*.tsx --write",
     "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx ./src && rm -rf ./utils",
