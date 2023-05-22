@@ -15,4 +15,4 @@ scripts
 yarn.lock
 openapi.json
 
-./utils/**/*
+utils
