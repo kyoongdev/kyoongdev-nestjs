@@ -20,13 +20,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var Naver_1;
+var NaverLogin_1;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Naver = void 0;
+exports.NaverLogin = void 0;
 const common_1 = require("@nestjs/common");
 const axios_1 = __importDefault(require("axios"));
 const constant_1 = require("./constant");
-let Naver = Naver_1 = class Naver {
+let NaverLogin = NaverLogin_1 = class NaverLogin {
     constructor(props) {
         this.clientId = props.clientId;
         this.clientSecret = props.clientSecret;
@@ -81,7 +81,7 @@ let Naver = Naver_1 = class Naver {
                 if (!tokenInfo) {
                     throw { status: 400, message: '네이버 토큰 발급 오류!' };
                 }
-                const user = yield Naver_1.getUser(tokenInfo.token);
+                const user = yield NaverLogin_1.getUser(tokenInfo.token);
                 if (!user) {
                     throw { status: 500, message: '네이버 유저정보 발급 오류!' };
                 }
@@ -93,9 +93,9 @@ let Naver = Naver_1 = class Naver {
         });
     }
 };
-Naver = Naver_1 = __decorate([
+NaverLogin = NaverLogin_1 = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [Object])
-], Naver);
-exports.Naver = Naver;
+], NaverLogin);
+exports.NaverLogin = NaverLogin;
 //# sourceMappingURL=naver.js.map

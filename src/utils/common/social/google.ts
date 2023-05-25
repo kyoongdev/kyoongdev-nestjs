@@ -2,47 +2,35 @@
 import axios from 'axios';
 
 import type { Response } from 'express';
-import type { Google as GoogleSocial } from './types';
 
-import { Injectable } from '@nestjs/common';
-import { GOOGLE_URL } from './constant';
-
-interface GoogleProps {
-  clientId: string;
-  clientSecret: string | undefined;
-  redirectUri: string | undefined;
-}
-
-export type GoogleUser = GoogleSocial.User;
+import { Inject, Injectable } from '@nestjs/common';
+import { GOOGLE_CONFIG, GOOGLE_URL } from './constant';
+import type { GoogleConfig, GoogleSocial } from './type-util';
 
 @Injectable()
 export class GoogleLogin {
-  private clientId: string;
-  private clientSecret: string | undefined;
-  private redirectUri: string | undefined;
-
-  constructor(props: GoogleProps) {
-    this.clientId = props.clientId;
-    this.clientSecret = props.clientSecret;
-    this.redirectUri = props.redirectUri;
-  }
+  constructor(@Inject(GOOGLE_CONFIG) private readonly props: GoogleConfig | null) {}
 
   public getRest(res: Response, redirectUrl: string | undefined) {
-    if (!this.redirectUri && !redirectUrl) {
+    if (!this.props?.redirectUri && !redirectUrl) {
       throw { status: 500, message: 'Google Redirect Url is not defined' };
     }
 
-    res.redirect(GOOGLE_URL.AUTH(this.clientId, redirectUrl ?? this.redirectUri!));
+    if (!this.props?.clientId) {
+      throw { status: 500, message: 'Google Client Id is not defined' };
+    }
+
+    res.redirect(GOOGLE_URL.AUTH(this.props?.clientId, redirectUrl ?? this.props.redirectUri!));
   }
 
   public async getToken(code: string): Promise<string | undefined> {
-    if (this.clientSecret || this.redirectUri)
-      throw { status: 500, message: 'Google Client Secret or Redirect Url is not defined' };
+    if (!this.props?.clientSecret || !this.props?.redirectUri || this.props?.clientId)
+      throw { status: 500, message: 'Google Client Secret or Redirect Url or ClientId is not defined' };
 
     const data = {
-      client_id: this.clientId,
-      client_secret: this.clientSecret,
-      redirect_uri: this.redirectUri,
+      client_id: this.props.clientId,
+      client_secret: this.props.clientSecret,
+      redirect_uri: this.props.redirectUri,
       grant_type: 'authorization_code',
       code,
     };

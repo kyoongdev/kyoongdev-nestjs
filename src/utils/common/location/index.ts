@@ -1,6 +1,7 @@
 import axios from 'axios';
 import queryString from 'query-string';
 
+import { Injectable } from '@nestjs/common';
 import type {
   DistanceProps,
   GoogleGeocode,
@@ -9,10 +10,10 @@ import type {
   IKakaoAddress,
   IKakaoGeocode,
   IKakaoKeyword,
-  ILocation,
   KakaoAddressResponse,
   KakaoGeocodeResponse,
   KakaoKeywordResponse,
+  Location as LocationProps,
 } from './type';
 
 const kakaoApi = axios.create({
@@ -23,12 +24,13 @@ const googleAPI = axios.create({
   baseURL: 'https://maps.googleapis.com/maps/api',
 });
 
+@Injectable()
 class Location {
   private kakaoRestKey: string | undefined;
   private googleRestKey: string | undefined;
   private headers: any | null = null;
 
-  constructor({ kakaoRestKey, googleRestKey }: ILocation) {
+  public setKeys({ kakaoRestKey, googleRestKey }: LocationProps) {
     this.kakaoRestKey = kakaoRestKey;
     this.googleRestKey = googleRestKey;
   }

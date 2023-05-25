@@ -20,14 +20,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var Kakao_1;
+var KakaoLogin_1;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Kakao = void 0;
+exports.KakaoLogin = void 0;
 const axios_1 = __importDefault(require("axios"));
 const query_string_1 = __importDefault(require("query-string"));
 const common_1 = require("@nestjs/common");
 const constant_1 = require("./constant");
-let Kakao = Kakao_1 = class Kakao {
+let KakaoLogin = KakaoLogin_1 = class KakaoLogin {
     constructor(props) {
         this.redirectUrl = props.kakaoRedirectUrl;
         this.restKey = props.kakaoRestKey;
@@ -93,7 +93,7 @@ let Kakao = Kakao_1 = class Kakao {
                 if (!token) {
                     throw { status: 400, message: '카카오 토큰 발급 오류!' };
                 }
-                const user = yield Kakao_1.getUser(token);
+                const user = yield KakaoLogin_1.getUser(token);
                 if (!user) {
                     throw { status: 500, message: '카카오 유저정보 발급 오류!' };
                 }
@@ -127,9 +127,9 @@ let Kakao = Kakao_1 = class Kakao {
         });
     }
 };
-Kakao = Kakao_1 = __decorate([
+KakaoLogin = KakaoLogin_1 = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [Object])
-], Kakao);
-exports.Kakao = Kakao;
+], KakaoLogin);
+exports.KakaoLogin = KakaoLogin;
 //# sourceMappingURL=kakao.js.map

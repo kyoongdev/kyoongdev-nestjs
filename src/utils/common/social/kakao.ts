@@ -3,39 +3,25 @@ import axios from 'axios';
 import queryString from 'query-string';
 
 import type { Response } from 'express';
-import type { Kakao as KakaoSocial } from './types';
 
-import { Injectable } from '@nestjs/common';
-import { KAKAO_URL } from './constant';
-
-interface KakaoProps {
-  kakaoRestKey: string;
-  kakaoSecretKey: string | undefined;
-  kakaoAdminKey: string | undefined;
-  kakaoRedirectUrl: string | undefined;
-}
-export type KakaoUser = KakaoSocial.User;
+import { Inject, Injectable } from '@nestjs/common';
+import { KAKAO_CONFIG, KAKAO_URL } from './constant';
+import type { KakaoConfig, KakaoSocial } from './type-util';
 
 @Injectable()
 export class KakaoLogin {
-  private restKey: string;
-  private secretKey: string | undefined;
-  private redirectUrl: string | undefined;
-  private adminKey: string | undefined;
-
-  constructor(props: KakaoProps) {
-    this.redirectUrl = props.kakaoRedirectUrl;
-    this.restKey = props.kakaoRestKey;
-    this.secretKey = props.kakaoSecretKey;
-    this.adminKey = props.kakaoAdminKey;
-  }
+  constructor(@Inject(KAKAO_CONFIG) private readonly props: KakaoConfig | null) {}
 
   public getRest(res: Response, redirectUrl: string | undefined) {
-    if (!this.redirectUrl && !redirectUrl) {
+    if (!this.props?.redirectUrl && !redirectUrl) {
       throw { status: 500, message: 'Kakao Redirect Url is not defined' };
     }
 
-    res.redirect(KAKAO_URL.AUTH(this.restKey, redirectUrl ?? this.redirectUrl!));
+    if (!this.props?.restKey) {
+      throw { status: 500, message: 'Kakao Rest Key is not defined' };
+    }
+
+    res.redirect(KAKAO_URL.AUTH(this.props.restKey, redirectUrl ?? this.props.redirectUrl!));
   }
 
   static async getUser(token: string): Promise<KakaoSocial.GetUser | undefined> {
@@ -61,11 +47,15 @@ export class KakaoLogin {
   }
 
   public async getToken(code: string, redirectUrl?: string): Promise<string | undefined> {
+    if (!this.props?.restKey || !this.props.secretKey || !this.props.redirectUrl) {
+      throw { status: 500, message: 'Kakao config is not defined' };
+    }
+
     const data = queryString.stringify({
       grant_type: 'authorization_code',
-      client_id: this.restKey,
-      client_secret: this.secretKey,
-      redirectUri: redirectUrl || this.redirectUrl,
+      client_id: this.props.restKey,
+      client_secret: this.props.secretKey,
+      redirectUri: redirectUrl || this.props.redirectUrl,
       code,
     });
 
@@ -103,12 +93,12 @@ export class KakaoLogin {
 
   public async logout(id: string, adminKey?: string): Promise<boolean> {
     try {
-      if (!adminKey && !this.adminKey) {
+      if (!adminKey && !this.props?.adminKey) {
         throw { status: 500, message: '카카오 어드민키가 없습니다.' };
       }
 
       const headers = {
-        Authorization: `KakaoAK ${adminKey ?? this.adminKey}`,
+        Authorization: `KakaoAK ${adminKey ?? this.props?.adminKey}`,
         'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
       };
 

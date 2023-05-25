@@ -2,6 +2,11 @@ import type { AppleAuthConfig } from 'apple-auth';
 import AppleAuth from 'apple-auth';
 import queryString from 'query-string';
 
+export const KAKAO_CONFIG = Symbol('KAKAO_CONFIG');
+export const GOOGLE_CONFIG = Symbol('GOOGLE_CONFIG');
+export const APPLE_CONFIG = Symbol('APPLE_CONFIG');
+export const NAVER_CONFIG = Symbol('NAVER_CONFIG');
+
 const KAKAO_URL = {
   TOKEN: 'https://kauth.kakao.com/oauth/token',
   USER: 'https://kapi.kakao.com/v2/user/me',

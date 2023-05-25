@@ -20,13 +20,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var Google_1;
+var GoogleLogin_1;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Google = void 0;
+exports.GoogleLogin = void 0;
 const axios_1 = __importDefault(require("axios"));
 const common_1 = require("@nestjs/common");
 const constant_1 = require("./constant");
-let Google = Google_1 = class Google {
+let GoogleLogin = GoogleLogin_1 = class GoogleLogin {
     constructor(props) {
         this.clientId = props.clientId;
         this.clientSecret = props.clientSecret;
@@ -105,7 +105,7 @@ let Google = Google_1 = class Google {
     getRestCallback(code) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const user = yield Google_1.getWebUser(code);
+                const user = yield GoogleLogin_1.getWebUser(code);
                 if (!user) {
                     throw { status: 500, message: '구글 유저정보 발급 오류!' };
                 }
@@ -117,9 +117,9 @@ let Google = Google_1 = class Google {
         });
     }
 };
-Google = Google_1 = __decorate([
+GoogleLogin = GoogleLogin_1 = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [Object])
-], Google);
-exports.Google = Google;
+], GoogleLogin);
+exports.GoogleLogin = GoogleLogin;
 //# sourceMappingURL=google.js.map

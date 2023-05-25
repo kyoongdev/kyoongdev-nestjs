@@ -1,34 +1,20 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import axios from 'axios';
 import type { Response } from 'express';
-import { NAVER_URL } from './constant';
-import type { Naver as NaverSocial } from './types';
-
-interface NaverProps {
-  clientId: string;
-  clientSecret: string | undefined;
-  redirectUrl: string | undefined;
-}
-
-export type NaverUser = NaverSocial.User;
+import { NAVER_CONFIG, NAVER_URL } from './constant';
+import type { NaverConfig, NaverSocial } from './type-util';
 
 @Injectable()
 class NaverLogin {
-  private clientId: string;
-  private clientSecret: string | undefined;
-  private redirectUrl: string | undefined;
-
-  constructor(props: NaverProps) {
-    this.clientId = props.clientId;
-    this.clientSecret = props.clientSecret;
-    this.redirectUrl = props.redirectUrl;
-  }
+  constructor(@Inject(NAVER_CONFIG) private readonly props: NaverConfig | null) {}
 
   public getRest(res: Response, code: string, redirectUrl: string | undefined) {
-    if (!this.redirectUrl && !redirectUrl) throw { status: 500, message: 'Naver Redirect Url is not defined' };
+    if (!this.props?.redirectUrl && !redirectUrl) throw { status: 500, message: 'Naver Redirect Url is not defined' };
 
-    res.redirect(NAVER_URL.AUTH(code, redirectUrl ?? this.redirectUrl!, this.clientId));
+    if (!this.props?.clientId) throw { status: 500, message: 'Naver Client Id is not defined' };
+
+    res.redirect(NAVER_URL.AUTH(code, redirectUrl ?? this.props.redirectUrl!, this.props.clientId));
   }
 
   static async getUser(token: string): Promise<NaverSocial.User | undefined> {
@@ -57,9 +43,10 @@ class NaverLogin {
 
   public async getToken(code: string): Promise<NaverSocial.Token | undefined> {
     try {
-      if (!this.clientSecret) throw { status: 500, message: 'Naver Client Secret is not defined' };
+      if (!this.props?.clientSecret) throw { status: 500, message: 'Naver Client Secret is not defined' };
+      if (!this.props?.clientId) throw { status: 500, message: 'Naver Client Id is not defined' };
 
-      const response = await axios.get(NAVER_URL.TOKEN(code, this.clientId, this.clientSecret));
+      const response = await axios.get(NAVER_URL.TOKEN(code, this.props.clientId, this.props.clientSecret));
       const { access_token: token, token_type: tokenType } = response.data;
 
       return { token, tokenType };

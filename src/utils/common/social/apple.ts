@@ -1,27 +1,19 @@
 import AppleAuth from 'apple-auth';
 import jwt from 'jsonwebtoken';
 
-import { Injectable } from '@nestjs/common';
-import type { AppleAuthConfig } from 'apple-auth';
+import { Inject, Injectable } from '@nestjs/common';
+
 import type { Response } from 'express';
+import { APPLE_CONFIG } from './constant';
 import type { Apple as AppleTypes } from './types';
-
-interface AppleProps {
-  appleConfig: AppleAuthConfig;
-  path: string;
-}
-
-export type AppleUser = AppleTypes.User;
 
 @Injectable()
 class AppleLogin {
-  private appleAuth: AppleAuth;
-
-  constructor(props: AppleProps) {
-    this.appleAuth = new AppleAuth(props.appleConfig, props.path, 'text');
-  }
+  constructor(@Inject(APPLE_CONFIG) private readonly appleAuth: AppleAuth | null) {}
 
   public getRest(res: Response) {
+    if (!this.appleAuth) throw { status: 500, message: '애플 로그인 설정 오류!' };
+
     res.redirect(this.appleAuth.loginURL());
   }
 

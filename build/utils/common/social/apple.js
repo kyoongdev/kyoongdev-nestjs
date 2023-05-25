@@ -20,13 +20,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var Apple_1;
+var AppleLogin_1;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Apple = void 0;
+exports.AppleLogin = void 0;
 const apple_auth_1 = __importDefault(require("apple-auth"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const common_1 = require("@nestjs/common");
-let Apple = Apple_1 = class Apple {
+let AppleLogin = AppleLogin_1 = class AppleLogin {
     constructor(props) {
         this.appleAuth = new apple_auth_1.default(props.appleConfig, props.path, 'text');
     }
@@ -52,7 +52,7 @@ let Apple = Apple_1 = class Apple {
     getRestCallback(code) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const user = yield Apple_1.getUser(code);
+                const user = yield AppleLogin_1.getUser(code);
                 if (!user)
                     throw { status: 500, message: '애플 유저 정보 발급 오류!' };
                 return user;
@@ -63,9 +63,9 @@ let Apple = Apple_1 = class Apple {
         });
     }
 };
-Apple = Apple_1 = __decorate([
+AppleLogin = AppleLogin_1 = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [Object])
-], Apple);
-exports.Apple = Apple;
+], AppleLogin);
+exports.AppleLogin = AppleLogin;
 //# sourceMappingURL=apple.js.map
