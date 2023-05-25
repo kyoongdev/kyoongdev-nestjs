@@ -15,48 +15,41 @@ const google_1 = require("./google");
 const kakao_1 = require("./kakao");
 const naver_1 = require("./naver");
 let SocialLoginModule = SocialLoginModule_1 = class SocialLoginModule {
-    static forFeature(config = {}) {
-        const providers = this.createConfig(config);
+    static forRoot(config = {}) {
+        const providers = [
+            this.createAppleConfig(config.apple),
+            this.createGoogleConfig(config.google),
+            this.createKakaoConfig(config.kakao),
+            this.createNaverConfig(config.naver),
+        ];
         return {
             module: SocialLoginModule_1,
             providers,
             exports: providers,
         };
     }
-    static createConfig(config = {}) {
-        const providers = [];
-        if (config.kakao)
-            providers.push(this.createKakaoConfig(config.kakao));
-        if (config.apple)
-            providers.push(this.createAppleConfig(config.apple));
-        if (config.google)
-            providers.push(this.createGoogleConfig(config.google));
-        if (config.naver)
-            providers.push(this.createNaverConfig(config.naver));
-        return providers;
-    }
     static createKakaoConfig(kakao) {
         return {
             provide: constant_1.KAKAO_CONFIG,
-            useValue: kakao,
+            useValue: kakao || null,
         };
     }
     static createAppleConfig(apple) {
         return {
             provide: constant_1.APPLE_CONFIG,
-            useValue: apple,
+            useValue: apple || null,
         };
     }
     static createGoogleConfig(google) {
         return {
             provide: constant_1.GOOGLE_CONFIG,
-            useValue: google,
+            useValue: google || null,
         };
     }
     static createNaverConfig(naver) {
         return {
             provide: constant_1.NAVER_CONFIG,
-            useValue: naver,
+            useValue: naver || null,
         };
     }
 };
