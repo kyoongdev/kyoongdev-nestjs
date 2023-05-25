@@ -14,7 +14,7 @@ interface NaverProps {
 export type NaverUser = NaverSocial.User;
 
 @Injectable()
-class Naver {
+class NaverLogin {
   private clientId: string;
   private clientSecret: string | undefined;
   private redirectUrl: string | undefined;
@@ -76,7 +76,7 @@ class Naver {
         throw { status: 400, message: '네이버 토큰 발급 오류!' };
       }
 
-      const user = await Naver.getUser(tokenInfo.token);
+      const user = await NaverLogin.getUser(tokenInfo.token);
       if (!user) {
         throw { status: 500, message: '네이버 유저정보 발급 오류!' };
       }
@@ -88,4 +88,4 @@ class Naver {
   }
 }
 
-export { Naver };
+export { NaverLogin };

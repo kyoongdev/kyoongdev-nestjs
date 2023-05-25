@@ -14,7 +14,7 @@ interface AppleProps {
 export type AppleUser = AppleTypes.User;
 
 @Injectable()
-class Apple {
+class AppleLogin {
   private appleAuth: AppleAuth;
 
   constructor(props: AppleProps) {
@@ -45,7 +45,7 @@ class Apple {
 
   public async getRestCallback(code: string): Promise<AppleTypes.User | undefined> {
     try {
-      const user = await Apple.getUser(code);
+      const user = await AppleLogin.getUser(code);
 
       if (!user) throw { status: 500, message: '애플 유저 정보 발급 오류!' };
 
@@ -56,4 +56,4 @@ class Apple {
   }
 }
 
-export { Apple };
+export { AppleLogin };

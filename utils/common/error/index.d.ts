@@ -55,5 +55,5 @@ export interface BaseErrorCode {
     code: HttpStatus[keyof HttpStatus];
 }
 export type ErrorCode<T extends HttpStatusType> = {
-    [K in T]: BaseErrorCode;
+    [K in T]: (message?: string) => BaseErrorCode;
 };

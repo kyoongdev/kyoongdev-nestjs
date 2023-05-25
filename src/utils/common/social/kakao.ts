@@ -17,7 +17,7 @@ interface KakaoProps {
 export type KakaoUser = KakaoSocial.User;
 
 @Injectable()
-export class Kakao {
+export class KakaoLogin {
   private restKey: string;
   private secretKey: string | undefined;
   private redirectUrl: string | undefined;
@@ -90,7 +90,7 @@ export class Kakao {
         throw { status: 400, message: '카카오 토큰 발급 오류!' };
       }
 
-      const user = await Kakao.getUser(token);
+      const user = await KakaoLogin.getUser(token);
       if (!user) {
         throw { status: 500, message: '카카오 유저정보 발급 오류!' };
       }

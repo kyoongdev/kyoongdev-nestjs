@@ -16,7 +16,7 @@ interface GoogleProps {
 export type GoogleUser = GoogleSocial.User;
 
 @Injectable()
-export class Google {
+export class GoogleLogin {
   private clientId: string;
   private clientSecret: string | undefined;
   private redirectUri: string | undefined;
@@ -96,7 +96,7 @@ export class Google {
   }
   public async getRestCallback(code: string): Promise<GoogleSocial.GetRestCallback | undefined> {
     try {
-      const user = await Google.getWebUser(code);
+      const user = await GoogleLogin.getWebUser(code);
       if (!user) {
         throw { status: 500, message: '구글 유저정보 발급 오류!' };
       }
