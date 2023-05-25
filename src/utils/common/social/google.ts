@@ -11,7 +11,7 @@ import type { GoogleConfig, GoogleSocial } from './type-util';
 export class GoogleLogin {
   constructor(@Inject(GOOGLE_CONFIG) private readonly props: GoogleConfig | null) {}
 
-  public getRest(res: Response, redirectUrl: string | undefined) {
+  public getRest(res: Response, redirectUrl?: string) {
     if (!this.props?.redirectUri && !redirectUrl) {
       throw { status: 500, message: 'Google Redirect Url is not defined' };
     }

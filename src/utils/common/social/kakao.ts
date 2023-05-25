@@ -12,7 +12,7 @@ import type { KakaoConfig, KakaoSocial } from './type-util';
 export class KakaoLogin {
   constructor(@Inject(KAKAO_CONFIG) private readonly props: KakaoConfig | null) {}
 
-  public getRest(res: Response, redirectUrl: string | undefined) {
+  public getRest(res: Response, redirectUrl?: string) {
     if (!this.props?.redirectUrl && !redirectUrl) {
       throw { status: 500, message: 'Kakao Redirect Url is not defined' };
     }

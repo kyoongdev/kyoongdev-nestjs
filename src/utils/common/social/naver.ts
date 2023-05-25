@@ -9,7 +9,7 @@ import type { NaverConfig, NaverSocial } from './type-util';
 class NaverLogin {
   constructor(@Inject(NAVER_CONFIG) private readonly props: NaverConfig | null) {}
 
-  public getRest(res: Response, code: string, redirectUrl: string | undefined) {
+  public getRest(res: Response, code: string, redirectUrl?: string) {
     if (!this.props?.redirectUrl && !redirectUrl) throw { status: 500, message: 'Naver Redirect Url is not defined' };
 
     if (!this.props?.clientId) throw { status: 500, message: 'Naver Client Id is not defined' };
