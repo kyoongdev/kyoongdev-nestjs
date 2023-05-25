@@ -8,6 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -28,31 +31,33 @@ const common_1 = require("@nestjs/common");
 const constant_1 = require("./constant");
 let GoogleLogin = GoogleLogin_1 = class GoogleLogin {
     constructor(props) {
-        this.clientId = props.clientId;
-        this.clientSecret = props.clientSecret;
-        this.redirectUri = props.redirectUri;
+        this.props = props;
     }
     getRest(res, redirectUrl) {
-        if (!this.redirectUri && !redirectUrl) {
+        var _a, _b, _c;
+        if (!((_a = this.props) === null || _a === void 0 ? void 0 : _a.redirectUri) && !redirectUrl) {
             throw { status: 500, message: 'Google Redirect Url is not defined' };
         }
-        res.redirect(constant_1.GOOGLE_URL.AUTH(this.clientId, redirectUrl !== null && redirectUrl !== void 0 ? redirectUrl : this.redirectUri));
+        if (!((_b = this.props) === null || _b === void 0 ? void 0 : _b.clientId)) {
+            throw { status: 500, message: 'Google Client Id is not defined' };
+        }
+        res.redirect(constant_1.GOOGLE_URL.AUTH((_c = this.props) === null || _c === void 0 ? void 0 : _c.clientId, redirectUrl !== null && redirectUrl !== void 0 ? redirectUrl : this.props.redirectUri));
     }
     getToken(code) {
-        var _a;
+        var _a, _b, _c, _d;
         return __awaiter(this, void 0, void 0, function* () {
-            if (this.clientSecret || this.redirectUri)
-                throw { status: 500, message: 'Google Client Secret or Redirect Url is not defined' };
+            if (!((_a = this.props) === null || _a === void 0 ? void 0 : _a.clientSecret) || !((_b = this.props) === null || _b === void 0 ? void 0 : _b.redirectUri) || ((_c = this.props) === null || _c === void 0 ? void 0 : _c.clientId))
+                throw { status: 500, message: 'Google Client Secret or Redirect Url or ClientId is not defined' };
             const data = {
-                client_id: this.clientId,
-                client_secret: this.clientSecret,
-                redirect_uri: this.redirectUri,
+                client_id: this.props.clientId,
+                client_secret: this.props.clientSecret,
+                redirect_uri: this.props.redirectUri,
                 grant_type: 'authorization_code',
                 code,
             };
             try {
                 const response = yield axios_1.default.post(constant_1.GOOGLE_URL.TOKEN, data);
-                return (_a = response.data) === null || _a === void 0 ? void 0 : _a.access_token;
+                return (_d = response.data) === null || _d === void 0 ? void 0 : _d.access_token;
             }
             catch (error) {
                 return undefined;
@@ -119,6 +124,7 @@ let GoogleLogin = GoogleLogin_1 = class GoogleLogin {
 };
 GoogleLogin = GoogleLogin_1 = __decorate([
     (0, common_1.Injectable)(),
+    __param(0, (0, common_1.Inject)(constant_1.GOOGLE_CONFIG)),
     __metadata("design:paramtypes", [Object])
 ], GoogleLogin);
 exports.GoogleLogin = GoogleLogin;

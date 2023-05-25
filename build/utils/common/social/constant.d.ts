@@ -1,5 +1,9 @@
 import type { AppleAuthConfig } from 'apple-auth';
 import AppleAuth from 'apple-auth';
+export declare const KAKAO_CONFIG: unique symbol;
+export declare const GOOGLE_CONFIG: unique symbol;
+export declare const APPLE_CONFIG: unique symbol;
+export declare const NAVER_CONFIG: unique symbol;
 declare const KAKAO_URL: {
     readonly TOKEN: "https://kauth.kakao.com/oauth/token";
     readonly USER: "https://kapi.kakao.com/v2/user/me";

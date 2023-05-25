@@ -1,4 +1,10 @@
 "use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -15,15 +21,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Location = void 0;
 const axios_1 = __importDefault(require("axios"));
 const query_string_1 = __importDefault(require("query-string"));
+const common_1 = require("@nestjs/common");
 const kakaoApi = axios_1.default.create({
     baseURL: 'https://dapi.kakao.com/v2/local',
 });
 const googleAPI = axios_1.default.create({
     baseURL: 'https://maps.googleapis.com/maps/api',
 });
-class Location {
-    constructor({ kakaoRestKey, googleRestKey }) {
+let Location = class Location {
+    constructor() {
         this.headers = null;
+    }
+    setKeys({ kakaoRestKey, googleRestKey }) {
         this.kakaoRestKey = kakaoRestKey;
         this.googleRestKey = googleRestKey;
     }
@@ -153,6 +162,9 @@ class Location {
             dist = Math.round(dist / 100) * 100;
         return Number((dist / 1000).toFixed(3));
     }
-}
+};
+Location = __decorate([
+    (0, common_1.Injectable)()
+], Location);
 exports.Location = Location;
 //# sourceMappingURL=index.js.map

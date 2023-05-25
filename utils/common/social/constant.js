@@ -3,9 +3,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.NAVER_URL = exports.APPLE_URL = exports.GOOGLE_URL = exports.KAKAO_URL = void 0;
+exports.NAVER_URL = exports.APPLE_URL = exports.GOOGLE_URL = exports.KAKAO_URL = exports.NAVER_CONFIG = exports.APPLE_CONFIG = exports.GOOGLE_CONFIG = exports.KAKAO_CONFIG = void 0;
 const apple_auth_1 = __importDefault(require("apple-auth"));
 const query_string_1 = __importDefault(require("query-string"));
+exports.KAKAO_CONFIG = Symbol('KAKAO_CONFIG');
+exports.GOOGLE_CONFIG = Symbol('GOOGLE_CONFIG');
+exports.APPLE_CONFIG = Symbol('APPLE_CONFIG');
+exports.NAVER_CONFIG = Symbol('NAVER_CONFIG');
 const KAKAO_URL = {
     TOKEN: 'https://kauth.kakao.com/oauth/token',
     USER: 'https://kapi.kakao.com/v2/user/me',

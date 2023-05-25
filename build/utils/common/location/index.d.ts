@@ -1,9 +1,9 @@
-import type { DistanceProps, GoogleGeocodeResponse, IGoogleGeocode, IKakaoAddress, IKakaoGeocode, IKakaoKeyword, ILocation, KakaoAddressResponse, KakaoGeocodeResponse, KakaoKeywordResponse } from './type';
+import type { DistanceProps, GoogleGeocodeResponse, IGoogleGeocode, IKakaoAddress, IKakaoGeocode, IKakaoKeyword, KakaoAddressResponse, KakaoGeocodeResponse, KakaoKeywordResponse, Location as LocationProps } from './type';
 declare class Location {
     private kakaoRestKey;
     private googleRestKey;
     private headers;
-    constructor({ kakaoRestKey, googleRestKey }: ILocation);
+    setKeys({ kakaoRestKey, googleRestKey }: LocationProps): void;
     private setKakaoHeader;
     private parseGoogleGeocode;
     getKakaoLocationByAddress({ address, analyze_type, page, limit, kakaoRestKey, }: IKakaoAddress): Promise<{

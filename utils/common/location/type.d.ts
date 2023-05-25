@@ -1,5 +1,5 @@
 export type KakaoAddressType = 'REGION' | 'ROAD' | 'REGION_ADDR' | 'ROAD_ADDR';
-export interface ILocation {
+export interface Location {
     kakaoRestKey: string | undefined;
     googleRestKey: string | undefined;
 }

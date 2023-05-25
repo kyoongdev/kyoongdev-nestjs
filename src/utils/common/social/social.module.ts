@@ -11,8 +11,13 @@ import type { AppleConfig, GoogleConfig, KakaoConfig, NaverConfig, SocialConfig 
   exports: [KakaoLogin, AppleLogin, GoogleLogin, NaverLogin],
 })
 export class SocialLoginModule {
-  static forFeature(config: SocialConfig = {}): DynamicModule {
-    const providers: Provider[] = this.createConfig(config);
+  static forRoot(config: SocialConfig = {}): DynamicModule {
+    const providers: Provider[] = [
+      this.createAppleConfig(config.apple),
+      this.createGoogleConfig(config.google),
+      this.createKakaoConfig(config.kakao),
+      this.createNaverConfig(config.naver),
+    ];
 
     return {
       module: SocialLoginModule,
@@ -21,40 +26,31 @@ export class SocialLoginModule {
     };
   }
 
-  private static createConfig(config: SocialConfig = {}) {
-    const providers: Provider[] = [];
-    if (config.kakao) providers.push(this.createKakaoConfig(config.kakao));
-    if (config.apple) providers.push(this.createAppleConfig(config.apple));
-    if (config.google) providers.push(this.createGoogleConfig(config.google));
-    if (config.naver) providers.push(this.createNaverConfig(config.naver));
-    return providers;
-  }
-
-  private static createKakaoConfig(kakao: KakaoConfig): Provider {
+  private static createKakaoConfig(kakao?: KakaoConfig): Provider {
     return {
       provide: KAKAO_CONFIG,
-      useValue: kakao,
+      useValue: kakao || null,
     };
   }
 
-  private static createAppleConfig(apple: AppleConfig): Provider {
+  private static createAppleConfig(apple?: AppleConfig): Provider {
     return {
       provide: APPLE_CONFIG,
-      useValue: apple,
+      useValue: apple || null,
     };
   }
 
-  private static createGoogleConfig(google: GoogleConfig): Provider {
+  private static createGoogleConfig(google?: GoogleConfig): Provider {
     return {
       provide: GOOGLE_CONFIG,
-      useValue: google,
+      useValue: google || null,
     };
   }
 
-  private static createNaverConfig(naver: NaverConfig): Provider {
+  private static createNaverConfig(naver?: NaverConfig): Provider {
     return {
       provide: NAVER_CONFIG,
-      useValue: naver,
+      useValue: naver || null,
     };
   }
 }

@@ -8,6 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -29,16 +32,17 @@ const common_1 = require("@nestjs/common");
 const constant_1 = require("./constant");
 let KakaoLogin = KakaoLogin_1 = class KakaoLogin {
     constructor(props) {
-        this.redirectUrl = props.kakaoRedirectUrl;
-        this.restKey = props.kakaoRestKey;
-        this.secretKey = props.kakaoSecretKey;
-        this.adminKey = props.kakaoAdminKey;
+        this.props = props;
     }
     getRest(res, redirectUrl) {
-        if (!this.redirectUrl && !redirectUrl) {
+        var _a, _b;
+        if (!((_a = this.props) === null || _a === void 0 ? void 0 : _a.redirectUrl) && !redirectUrl) {
             throw { status: 500, message: 'Kakao Redirect Url is not defined' };
         }
-        res.redirect(constant_1.KAKAO_URL.AUTH(this.restKey, redirectUrl !== null && redirectUrl !== void 0 ? redirectUrl : this.redirectUrl));
+        if (!((_b = this.props) === null || _b === void 0 ? void 0 : _b.restKey)) {
+            throw { status: 500, message: 'Kakao Rest Key is not defined' };
+        }
+        res.redirect(constant_1.KAKAO_URL.AUTH(this.props.restKey, redirectUrl !== null && redirectUrl !== void 0 ? redirectUrl : this.props.redirectUrl));
     }
     static getUser(token) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -63,13 +67,16 @@ let KakaoLogin = KakaoLogin_1 = class KakaoLogin {
         });
     }
     getToken(code, redirectUrl) {
-        var _a;
+        var _a, _b;
         return __awaiter(this, void 0, void 0, function* () {
+            if (!((_a = this.props) === null || _a === void 0 ? void 0 : _a.restKey) || !this.props.secretKey || !this.props.redirectUrl) {
+                throw { status: 500, message: 'Kakao config is not defined' };
+            }
             const data = query_string_1.default.stringify({
                 grant_type: 'authorization_code',
-                client_id: this.restKey,
-                client_secret: this.secretKey,
-                redirectUri: redirectUrl || this.redirectUrl,
+                client_id: this.props.restKey,
+                client_secret: this.props.secretKey,
+                redirectUri: redirectUrl || this.props.redirectUrl,
                 code,
             });
             try {
@@ -78,7 +85,7 @@ let KakaoLogin = KakaoLogin_1 = class KakaoLogin {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
                 });
-                const token = (_a = response.data) === null || _a === void 0 ? void 0 : _a.access_token;
+                const token = (_b = response.data) === null || _b === void 0 ? void 0 : _b.access_token;
                 return token;
             }
             catch (error) {
@@ -105,13 +112,14 @@ let KakaoLogin = KakaoLogin_1 = class KakaoLogin {
         });
     }
     logout(id, adminKey) {
+        var _a, _b;
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                if (!adminKey && !this.adminKey) {
+                if (!adminKey && !((_a = this.props) === null || _a === void 0 ? void 0 : _a.adminKey)) {
                     throw { status: 500, message: '카카오 어드민키가 없습니다.' };
                 }
                 const headers = {
-                    Authorization: `KakaoAK ${adminKey !== null && adminKey !== void 0 ? adminKey : this.adminKey}`,
+                    Authorization: `KakaoAK ${adminKey !== null && adminKey !== void 0 ? adminKey : (_b = this.props) === null || _b === void 0 ? void 0 : _b.adminKey}`,
                     'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
                 };
                 const data = query_string_1.default.stringify({
@@ -129,6 +137,7 @@ let KakaoLogin = KakaoLogin_1 = class KakaoLogin {
 };
 KakaoLogin = KakaoLogin_1 = __decorate([
     (0, common_1.Injectable)(),
+    __param(0, (0, common_1.Inject)(constant_1.KAKAO_CONFIG)),
     __metadata("design:paramtypes", [Object])
 ], KakaoLogin);
 exports.KakaoLogin = KakaoLogin;
