@@ -4,7 +4,7 @@ import { APPLE_CONFIG, GOOGLE_CONFIG, KAKAO_CONFIG, NAVER_CONFIG } from './const
 import { GoogleLogin } from './google';
 import { KakaoLogin } from './kakao';
 import { NaverLogin } from './naver';
-import type { AppleConfig, GoogleConfig, KakaoConfig, NaverConfig, SocialConfig } from './type-util';
+import type { AppleConfig, GoogleConfig, KakaoConfig, NaverConfig, SocialConfig } from './type';
 
 @Module({
   providers: [KakaoLogin, AppleLogin, GoogleLogin, NaverLogin],

@@ -6,7 +6,7 @@ import type { Response } from 'express';
 
 import { Inject, Injectable } from '@nestjs/common';
 import { KAKAO_CONFIG, KAKAO_URL } from './constant';
-import type { KakaoConfig, KakaoSocial } from './type-util';
+import type { KakaoConfig, KakaoGetRestCallback, KakaoGetUser } from './type';
 
 @Injectable()
 export class KakaoLogin {
@@ -24,7 +24,7 @@ export class KakaoLogin {
     res.redirect(KAKAO_URL.AUTH(this.props.restKey, redirectUrl ?? this.props.redirectUrl!));
   }
 
-  static async getUser(token: string): Promise<KakaoSocial.GetUser | undefined> {
+  static async getUser(token: string): Promise<KakaoGetUser | undefined> {
     const headers = {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
@@ -73,7 +73,7 @@ export class KakaoLogin {
     }
   }
 
-  public async getRestCallback(code: string): Promise<KakaoSocial.GetRestCallback | undefined> {
+  public async getRestCallback(code: string): Promise<KakaoGetRestCallback | undefined> {
     try {
       const token = await this.getToken(code);
       if (!token) {

@@ -5,7 +5,7 @@ import type { Response } from 'express';
 
 import { Inject, Injectable } from '@nestjs/common';
 import { GOOGLE_CONFIG, GOOGLE_URL } from './constant';
-import type { GoogleConfig, GoogleSocial } from './type-util';
+import type { GoogleConfig, GoogleGetRestCallback, GoogleUser } from './type';
 
 @Injectable()
 export class GoogleLogin {
@@ -44,7 +44,7 @@ export class GoogleLogin {
     }
   }
 
-  static async getAppUser(token: string): Promise<GoogleSocial.User | undefined> {
+  static async getAppUser(token: string): Promise<GoogleUser | undefined> {
     try {
       const response = await axios.get(GOOGLE_URL.USER_APP(token));
       const { id, email, name: nickname, picture: profileImage } = response.data;
@@ -82,7 +82,7 @@ export class GoogleLogin {
       return undefined;
     }
   }
-  public async getRestCallback(code: string): Promise<GoogleSocial.GetRestCallback | undefined> {
+  public async getRestCallback(code: string): Promise<GoogleGetRestCallback | undefined> {
     try {
       const user = await GoogleLogin.getWebUser(code);
       if (!user) {

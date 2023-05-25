@@ -5,7 +5,7 @@ import { Inject, Injectable } from '@nestjs/common';
 
 import type { Response } from 'express';
 import { APPLE_CONFIG } from './constant';
-import type { Apple as AppleTypes } from './types';
+import type { AppleUser } from './type';
 
 @Injectable()
 class AppleLogin {
@@ -17,7 +17,7 @@ class AppleLogin {
     res.redirect(this.appleAuth.loginURL());
   }
 
-  static async getUser(id_token: string): Promise<AppleTypes.User | undefined> {
+  static async getUser(id_token: string): Promise<AppleUser | undefined> {
     try {
       const idToken = jwt.decode(id_token) as {
         sub: string;
@@ -35,7 +35,7 @@ class AppleLogin {
     }
   }
 
-  public async getRestCallback(code: string): Promise<AppleTypes.User | undefined> {
+  public async getRestCallback(code: string): Promise<AppleUser | undefined> {
     try {
       const user = await AppleLogin.getUser(code);
 

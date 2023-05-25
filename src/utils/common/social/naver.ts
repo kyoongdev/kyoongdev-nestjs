@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import axios from 'axios';
 import type { Response } from 'express';
 import { NAVER_CONFIG, NAVER_URL } from './constant';
-import type { NaverConfig, NaverSocial } from './type-util';
+import type { NaverConfig, NaverGetRestCallback, NaverToken, NaverUser } from './type';
 
 @Injectable()
 class NaverLogin {
@@ -17,7 +17,7 @@ class NaverLogin {
     res.redirect(NAVER_URL.AUTH(code, redirectUrl ?? this.props.redirectUrl!, this.props.clientId));
   }
 
-  static async getUser(token: string): Promise<NaverSocial.User | undefined> {
+  static async getUser(token: string): Promise<NaverUser | undefined> {
     const headers = {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
@@ -41,7 +41,7 @@ class NaverLogin {
     }
   }
 
-  public async getToken(code: string): Promise<NaverSocial.Token | undefined> {
+  public async getToken(code: string): Promise<NaverToken | undefined> {
     try {
       if (!this.props?.clientSecret) throw { status: 500, message: 'Naver Client Secret is not defined' };
       if (!this.props?.clientId) throw { status: 500, message: 'Naver Client Id is not defined' };
@@ -55,7 +55,7 @@ class NaverLogin {
     }
   }
 
-  public async getRestCallback(code: string): Promise<NaverSocial.GetRestCallback | undefined> {
+  public async getRestCallback(code: string): Promise<NaverGetRestCallback | undefined> {
     try {
       const tokenInfo = await this.getToken(code);
 
