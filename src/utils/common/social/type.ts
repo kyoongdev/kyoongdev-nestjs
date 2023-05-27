@@ -10,7 +10,10 @@ export interface NaverUser {
   email?: string;
   gender?: string;
   age?: string;
-  phoneNumber?: string;
+  mobile?: string;
+  profile_image?: string;
+  name?: string;
+  birthyear?: string;
 }
 
 export interface NaverToken {

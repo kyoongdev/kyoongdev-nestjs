@@ -49,31 +49,26 @@ let NaverLogin = NaverLogin_1 = class NaverLogin {
             };
             try {
                 const response = yield axios_1.default.get(constant_1.NAVER_URL.USER, { headers });
-                const { response: naverResponse } = response.data;
-                const { id, email, gender, age, mobile: phoneNumber } = naverResponse;
-                return {
-                    id,
-                    email,
-                    gender,
-                    age,
-                    phoneNumber,
-                };
+                const naverResponse = response.data.response;
+                return naverResponse;
             }
             catch (err) {
+                console.log(err);
                 return undefined;
             }
         });
     }
     getToken(code) {
-        var _a, _b;
+        var _a, _b, _c, _d;
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 if (!((_a = this.props) === null || _a === void 0 ? void 0 : _a.clientSecret))
                     throw { status: 500, message: 'Naver Client Secret is not defined' };
                 if (!((_b = this.props) === null || _b === void 0 ? void 0 : _b.clientId))
                     throw { status: 500, message: 'Naver Client Id is not defined' };
-                const response = yield axios_1.default.get(constant_1.NAVER_URL.TOKEN(code, this.props.clientId, this.props.clientSecret));
-                const { access_token: token, token_type: tokenType } = response.data;
+                const response = yield axios_1.default.get(constant_1.NAVER_URL.TOKEN(this.props.clientId, this.props.clientSecret, code));
+                const token = (_c = response.data) === null || _c === void 0 ? void 0 : _c.access_token;
+                const tokenType = (_d = response.data) === null || _d === void 0 ? void 0 : _d.token_type;
                 return { token, tokenType };
             }
             catch (err) {
@@ -85,7 +80,7 @@ let NaverLogin = NaverLogin_1 = class NaverLogin {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const tokenInfo = yield this.getToken(code);
-                if (!tokenInfo) {
+                if (!tokenInfo || !tokenInfo.token) {
                     throw { status: 400, message: '네이버 토큰 발급 오류!' };
                 }
                 const user = yield NaverLogin_1.getUser(tokenInfo.token);

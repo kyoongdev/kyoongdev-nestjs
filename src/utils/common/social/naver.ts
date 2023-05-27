@@ -25,18 +25,11 @@ class NaverLogin {
 
     try {
       const response = await axios.get(NAVER_URL.USER, { headers });
-      const { response: naverResponse } = response.data;
+      const naverResponse = response.data.response;
 
-      const { id, email, gender, age, mobile: phoneNumber } = naverResponse;
-
-      return {
-        id,
-        email,
-        gender,
-        age,
-        phoneNumber,
-      };
+      return naverResponse;
     } catch (err) {
+      console.log(err);
       return undefined;
     }
   }
@@ -46,8 +39,10 @@ class NaverLogin {
       if (!this.props?.clientSecret) throw { status: 500, message: 'Naver Client Secret is not defined' };
       if (!this.props?.clientId) throw { status: 500, message: 'Naver Client Id is not defined' };
 
-      const response = await axios.get(NAVER_URL.TOKEN(code, this.props.clientId, this.props.clientSecret));
-      const { access_token: token, token_type: tokenType } = response.data;
+      const response = await axios.get(NAVER_URL.TOKEN(this.props.clientId, this.props.clientSecret, code));
+
+      const token = response.data?.access_token;
+      const tokenType = response.data?.token_type;
 
       return { token, tokenType };
     } catch (err) {
@@ -59,7 +54,7 @@ class NaverLogin {
     try {
       const tokenInfo = await this.getToken(code);
 
-      if (!tokenInfo) {
+      if (!tokenInfo || !tokenInfo.token) {
         throw { status: 400, message: '네이버 토큰 발급 오류!' };
       }
 

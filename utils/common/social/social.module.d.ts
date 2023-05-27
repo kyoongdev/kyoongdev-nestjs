@@ -1,5 +1,5 @@
 import { DynamicModule } from '@nestjs/common';
-import type { SocialConfig } from './type-util';
+import type { SocialConfig } from './type';
 export declare class SocialLoginModule {
     static forRoot(config?: SocialConfig): DynamicModule;
     private static createKakaoConfig;
