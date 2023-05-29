@@ -29,7 +29,6 @@ class NaverLogin {
 
       return naverResponse;
     } catch (err) {
-      console.log(err);
       return undefined;
     }
   }

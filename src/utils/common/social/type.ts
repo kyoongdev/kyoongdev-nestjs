@@ -6,14 +6,15 @@ export interface AppleUser {
 }
 
 export interface NaverUser {
-  id: string;
-  email?: string;
-  gender?: string;
-  age?: string;
-  mobile?: string;
-  profile_image?: string;
-  name?: string;
-  birthyear?: string;
+  id: String;
+  name: string;
+  email: string;
+  gender: 'F' | 'M' | 'U';
+  age: string;
+  birthday: string;
+  profile_image: string;
+  birthyear: string;
+  mobile: string;
 }
 
 export interface NaverToken {
@@ -37,17 +38,6 @@ export interface GoogleGetRestCallback {
   user: GoogleUser;
 }
 
-export interface KakaoUser {
-  id: string;
-  email?: string;
-  nickname?: string;
-  profileImage?: string;
-}
-export interface KakaoGetUserWithToken {
-  status: number;
-  message: string;
-  data?: { token: string; user: KakaoUser };
-}
 export interface KakaoProfile {
   nickname?: string;
   thumbnail_image_url?: string;
@@ -63,7 +53,22 @@ export interface KakaoAccount {
   birthday?: string;
   gender?: 'female' | 'male';
   phone_number?: string;
-  [key: string]: any;
+  profile_needs_agreement?: boolean;
+  profile_nickname_needs_agreement?: boolean;
+  profile_image_needs_agreement?: boolean;
+  email_needs_agreement?: boolean;
+  is_email_valid?: boolean;
+  is_email_verified?: boolean;
+  age_range_needs_agreement?: boolean;
+  age_range?: string;
+  birthday_needs_agreement?: boolean;
+  birthyear_needs_agreement?: boolean;
+  birthday_type?: 'SOLAR' | 'LUNAR';
+  gender_needs_agreement?: boolean;
+  phone_number_needs_agreement?: boolean;
+  ci_needs_agreement?: boolean;
+  ci?: string;
+  ci_authenticated_at?: Date;
 }
 export interface KakaoGetUser {
   id: string;
