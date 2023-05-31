@@ -166,6 +166,6 @@ export const ApiFile = (fieldName = 'file') => {
   );
 };
 
-export const Auth = (guard: Function, name = 'access-token') => {
-  return applyDecorators(ApiBearerAuth(name), UseGuards(guard));
+export const Auth = (guards: Function[], name = 'access-token') => {
+  return applyDecorators(ApiBearerAuth(name), UseGuards(...guards));
 };

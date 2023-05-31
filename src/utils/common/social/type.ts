@@ -6,7 +6,7 @@ export interface AppleUser {
 }
 
 export interface NaverUser {
-  id: String;
+  id: string;
   name: string;
   email: string;
   gender: 'F' | 'M' | 'U';
@@ -48,6 +48,7 @@ export interface KakaoProfile {
 export interface KakaoAccount {
   profile?: KakaoProfile;
   name?: string;
+  nickname?: string;
   email?: string;
   birthyear?: string;
   birthday?: string;
