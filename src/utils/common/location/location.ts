@@ -15,6 +15,9 @@ import type {
   KakaoGeocodeResponse,
   KakaoKeywordResponse,
   LocationProps,
+  NaverConfig,
+  NaverGeocodeQuery,
+  NaverGeocodeResponse,
 } from './type';
 
 const kakaoApi = axios.create({
@@ -25,16 +28,41 @@ const googleAPI = axios.create({
   baseURL: 'https://maps.googleapis.com/maps/api',
 });
 
+const naverApi = axios.create({
+  baseURL: 'https://naveropenapi.apigw.ntruss.com',
+});
+
 @Injectable()
 class Location {
   constructor(@Inject(LOCATION_CONFIG) private readonly config: LocationProps) {}
 
-  private getKakaoHeader(kakaoRestKey: string | undefined) {
-    if (!this.config.kakaoRestKey && kakaoRestKey) throw { status: 500, message: 'Kakao Rest Key is not defined' };
+  private getKakaoHeader(kakaoRestKey?: string) {
+    if (!this.config.kakaoRestKey && !kakaoRestKey) throw { status: 500, message: 'Kakao Rest Key is not defined' };
 
     return {
       Authorization: `KakaoAK ${kakaoRestKey ?? this.config.kakaoRestKey}`,
     };
+  }
+
+  private getNaverHeader(config?: NaverConfig) {
+    if (!this.config.naver?.clientId && !config?.clientId && !this.config.naver?.clientSecret && !config?.clientSecret)
+      throw { status: 500, message: 'Naver Client ID is not defined' };
+    return {
+      'X-NCP-APIGW-API-KEY-ID': config?.clientId || this.config.naver?.clientId,
+      'X-NCP-APIGW-API-KEY': config?.clientSecret || this.config.naver?.clientSecret,
+    };
+  }
+
+  public async getNaverLocation(params: NaverGeocodeQuery, config?: NaverConfig): Promise<NaverGeocodeResponse> {
+    const { coordinate, ...rest } = params;
+    const { data } = await naverApi.get<NaverGeocodeResponse>('/map-geocode/v2/geocode', {
+      headers: this.getNaverHeader(config),
+      params: {
+        ...rest,
+        coordinate: coordinate ? `${coordinate.longitude},${coordinate.latitude}` : undefined,
+      },
+    });
+    return data;
   }
 
   private parseGoogleGeocode(data: GoogleGeocode[]): Array<GoogleGeocodeResponse> {

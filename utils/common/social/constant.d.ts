@@ -8,6 +8,7 @@ declare const KAKAO_URL: {
     readonly TOKEN: "https://kauth.kakao.com/oauth/token";
     readonly USER: "https://kapi.kakao.com/v2/user/me";
     readonly LOGOUT: "https://kapi.kakao.com/v1/user/logout";
+    readonly UNLINK: "https://kapi.kakao.com/v1/user/unlink";
     readonly AUTH: (restKey: string, redirectUrl: string) => string;
 };
 declare const GOOGLE_URL: {
@@ -21,6 +22,7 @@ declare const APPLE_URL: {
 };
 declare const NAVER_URL: {
     readonly USER: "https://openapi.naver.com/v1/nid/me";
+    readonly UNLINK: (client_id: string, client_secret: string, access_token: string) => string;
     readonly TOKEN: (client_id: string, client_secret: string, code: string) => string;
     readonly AUTH: (code: string | number, redirect_uri: string, client_id: string) => string;
 };

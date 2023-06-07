@@ -1,8 +1,14 @@
 export type KakaoAddressType = 'REGION' | 'ROAD' | 'REGION_ADDR' | 'ROAD_ADDR';
 
+export interface NaverConfig {
+  clientId: string;
+  clientSecret: string;
+}
+
 export interface LocationProps {
   kakaoRestKey?: string;
   googleRestKey?: string;
+  naver?: NaverConfig;
 }
 
 export interface Pagination {
@@ -132,4 +138,42 @@ export interface GoogleGeocode {
 
 export interface GoogleGeocodeResponse extends Address {
   id: string;
+}
+
+export interface NaveAddressElement {
+  types: string[];
+  longName: string;
+  shortName: string;
+  code: string;
+}
+
+export interface NaverAddress {
+  roadAddress: string;
+  jibunAddress: string;
+  englishAddress: string;
+  x: string;
+  y: string;
+  distance: number;
+  addressElements: NaveAddressElement[];
+}
+
+export interface NaverGeocodeResponse {
+  status: string;
+  meta: {
+    totalCount: number;
+    count: number;
+    page: number;
+  };
+  addresses: NaverAddress[];
+}
+export interface NaverGeocodeQuery {
+  query: string; //주소
+  coordinate?: {
+    longitude: string;
+    latitude: string;
+  }; //검색 중심좌표 lon,lat
+  filter?: string;
+  language?: string;
+  page?: number;
+  count?: number;
 }
