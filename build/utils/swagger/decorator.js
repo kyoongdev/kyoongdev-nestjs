@@ -107,8 +107,8 @@ const ApiFile = (fieldName = 'file') => {
     }));
 };
 exports.ApiFile = ApiFile;
-const Auth = (guard, name = 'access-token') => {
-    return (0, common_1.applyDecorators)((0, swagger_1.ApiBearerAuth)(name), (0, common_1.UseGuards)(guard));
+const Auth = (guards, name = 'access-token') => {
+    return (0, common_1.applyDecorators)((0, swagger_1.ApiBearerAuth)(name), (0, common_1.UseGuards)(...guards));
 };
 exports.Auth = Auth;
 //# sourceMappingURL=decorator.js.map

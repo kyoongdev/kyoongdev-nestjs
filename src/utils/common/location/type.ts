@@ -1,8 +1,8 @@
 export type KakaoAddressType = 'REGION' | 'ROAD' | 'REGION_ADDR' | 'ROAD_ADDR';
 
-export interface Location {
-  kakaoRestKey: string | undefined;
-  googleRestKey: string | undefined;
+export interface LocationProps {
+  kakaoRestKey?: string;
+  googleRestKey?: string;
 }
 
 export interface Pagination {

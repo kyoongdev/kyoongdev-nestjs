@@ -11,6 +11,7 @@ const KAKAO_URL = {
   TOKEN: 'https://kauth.kakao.com/oauth/token',
   USER: 'https://kapi.kakao.com/v2/user/me',
   LOGOUT: 'https://kapi.kakao.com/v1/user/logout',
+  UNLINK: 'https://kapi.kakao.com/v1/user/unlink',
   AUTH(restKey: string, redirectUrl: string) {
     return `https://kauth.kakao.com/oauth/authorize?client_id=${restKey}&redirect_uri=${redirectUrl}&response_type=code`;
   },
@@ -47,6 +48,16 @@ const APPLE_URL = {
 
 const NAVER_URL = {
   USER: 'https://openapi.naver.com/v1/nid/me',
+  UNLINK(client_id: string, client_secret: string, access_token: string) {
+    const data = queryString.stringify({
+      grant_type: 'delete',
+      client_id,
+      client_secret,
+      access_token,
+    });
+
+    return `https://nid.naver.com/oauth2.0/token?${data}`;
+  },
   TOKEN(client_id: string, client_secret: string, code: string) {
     const data = queryString.stringify({
       grant_type: 'authorization_code',
