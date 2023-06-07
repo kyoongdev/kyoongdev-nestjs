@@ -1,15 +1,15 @@
 import { DynamicModule, Module, type Provider } from '@nestjs/common';
 
-import { Location } from './location';
+import { SocialLocationService } from './location';
 import { type LocationProps } from './type';
 
 export const LOCATION_CONFIG = Symbol('LOCATION_CONFIG');
 
 @Module({
-  providers: [Location],
-  exports: [Location],
+  providers: [SocialLocationService],
+  exports: [SocialLocationService],
 })
-export class LocationModule {
+export class SocialLocationModule {
   static forRoot(config: LocationProps = {}): DynamicModule {
     const providers: Provider[] = [
       {
@@ -18,7 +18,7 @@ export class LocationModule {
       },
     ];
     return {
-      module: LocationModule,
+      module: SocialLocationModule,
       providers,
       exports: providers,
     };

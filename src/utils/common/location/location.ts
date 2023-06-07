@@ -33,7 +33,7 @@ const naverApi = axios.create({
 });
 
 @Injectable()
-class Location {
+class SocialLocationService {
   constructor(@Inject(LOCATION_CONFIG) private readonly config: LocationProps) {}
 
   private getKakaoHeader(kakaoRestKey?: string) {
@@ -211,4 +211,4 @@ class Location {
   }
 }
 
-export { Location };
+export { SocialLocationService };
