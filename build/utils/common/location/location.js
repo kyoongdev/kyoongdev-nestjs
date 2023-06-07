@@ -20,6 +20,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -35,16 +46,38 @@ const kakaoApi = axios_1.default.create({
 const googleAPI = axios_1.default.create({
     baseURL: 'https://maps.googleapis.com/maps/api',
 });
+const naverApi = axios_1.default.create({
+    baseURL: 'https://naveropenapi.apigw.ntruss.com',
+});
 let Location = class Location {
     constructor(config) {
         this.config = config;
     }
     getKakaoHeader(kakaoRestKey) {
-        if (!this.config.kakaoRestKey && kakaoRestKey)
+        if (!this.config.kakaoRestKey && !kakaoRestKey)
             throw { status: 500, message: 'Kakao Rest Key is not defined' };
         return {
             Authorization: `KakaoAK ${kakaoRestKey !== null && kakaoRestKey !== void 0 ? kakaoRestKey : this.config.kakaoRestKey}`,
         };
+    }
+    getNaverHeader(config) {
+        var _a, _b, _c, _d;
+        if (!((_a = this.config.naver) === null || _a === void 0 ? void 0 : _a.clientId) && !(config === null || config === void 0 ? void 0 : config.clientId) && !((_b = this.config.naver) === null || _b === void 0 ? void 0 : _b.clientSecret) && !(config === null || config === void 0 ? void 0 : config.clientSecret))
+            throw { status: 500, message: 'Naver Client ID is not defined' };
+        return {
+            'X-NCP-APIGW-API-KEY-ID': (config === null || config === void 0 ? void 0 : config.clientId) || ((_c = this.config.naver) === null || _c === void 0 ? void 0 : _c.clientId),
+            'X-NCP-APIGW-API-KEY': (config === null || config === void 0 ? void 0 : config.clientSecret) || ((_d = this.config.naver) === null || _d === void 0 ? void 0 : _d.clientSecret),
+        };
+    }
+    getNaverLocation(params, config) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { coordinate } = params, rest = __rest(params, ["coordinate"]);
+            const { data } = yield naverApi.get('/map-geocode/v2/geocode', {
+                headers: this.getNaverHeader(config),
+                params: Object.assign(Object.assign({}, rest), { coordinate: coordinate ? `${coordinate.longitude},${coordinate.latitude}` : undefined }),
+            });
+            return data;
+        });
     }
     parseGoogleGeocode(data) {
         const result = [];

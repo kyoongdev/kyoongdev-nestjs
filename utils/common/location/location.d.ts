@@ -1,8 +1,10 @@
-import type { DistanceProps, GoogleGeocodeResponse, IGoogleGeocode, IKakaoAddress, IKakaoGeocode, IKakaoKeyword, KakaoAddressResponse, KakaoGeocodeResponse, KakaoKeywordResponse, LocationProps } from './type';
+import type { DistanceProps, GoogleGeocodeResponse, IGoogleGeocode, IKakaoAddress, IKakaoGeocode, IKakaoKeyword, KakaoAddressResponse, KakaoGeocodeResponse, KakaoKeywordResponse, LocationProps, NaverGeocodeQuery, NaverGeocodeResponse, NaverLocationConfig } from './type';
 declare class Location {
     private readonly config;
     constructor(config: LocationProps);
     private getKakaoHeader;
+    private getNaverHeader;
+    getNaverLocation(params: NaverGeocodeQuery, config?: NaverLocationConfig): Promise<NaverGeocodeResponse>;
     private parseGoogleGeocode;
     getKakaoLocationByAddress({ address, analyze_type, page, limit, kakaoRestKey, }: IKakaoAddress): Promise<{
         data: KakaoAddressResponse[];

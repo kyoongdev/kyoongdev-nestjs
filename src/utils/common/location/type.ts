@@ -1,6 +1,6 @@
 export type KakaoAddressType = 'REGION' | 'ROAD' | 'REGION_ADDR' | 'ROAD_ADDR';
 
-export interface NaverConfig {
+export interface NaverLocationConfig {
   clientId: string;
   clientSecret: string;
 }
@@ -8,7 +8,7 @@ export interface NaverConfig {
 export interface LocationProps {
   kakaoRestKey?: string;
   googleRestKey?: string;
-  naver?: NaverConfig;
+  naver?: NaverLocationConfig;
 }
 
 export interface Pagination {

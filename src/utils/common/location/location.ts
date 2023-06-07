@@ -15,9 +15,9 @@ import type {
   KakaoGeocodeResponse,
   KakaoKeywordResponse,
   LocationProps,
-  NaverConfig,
   NaverGeocodeQuery,
   NaverGeocodeResponse,
+  NaverLocationConfig,
 } from './type';
 
 const kakaoApi = axios.create({
@@ -44,7 +44,7 @@ class Location {
     };
   }
 
-  private getNaverHeader(config?: NaverConfig) {
+  private getNaverHeader(config?: NaverLocationConfig) {
     if (!this.config.naver?.clientId && !config?.clientId && !this.config.naver?.clientSecret && !config?.clientSecret)
       throw { status: 500, message: 'Naver Client ID is not defined' };
     return {
@@ -53,7 +53,10 @@ class Location {
     };
   }
 
-  public async getNaverLocation(params: NaverGeocodeQuery, config?: NaverConfig): Promise<NaverGeocodeResponse> {
+  public async getNaverLocation(
+    params: NaverGeocodeQuery,
+    config?: NaverLocationConfig
+  ): Promise<NaverGeocodeResponse> {
     const { coordinate, ...rest } = params;
     const { data } = await naverApi.get<NaverGeocodeResponse>('/map-geocode/v2/geocode', {
       headers: this.getNaverHeader(config),
