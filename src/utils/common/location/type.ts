@@ -140,7 +140,7 @@ export interface GoogleGeocodeResponse extends Address {
   id: string;
 }
 
-export interface NaveAddressElement {
+export interface NaverAddressElement {
   types: string[];
   longName: string;
   shortName: string;
@@ -154,7 +154,7 @@ export interface NaverAddress {
   x: string;
   y: string;
   distance: number;
-  addressElements: NaveAddressElement[];
+  addressElements: NaverAddressElement[];
 }
 
 export interface NaverGeocodeResponse {

@@ -35,11 +35,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Location = void 0;
+exports.SocialLocationService = void 0;
 const axios_1 = __importDefault(require("axios"));
 const query_string_1 = __importDefault(require("query-string"));
 const common_1 = require("@nestjs/common");
-const location_module_1 = require("./location.module");
+const constants_1 = require("./constants");
 const kakaoApi = axios_1.default.create({
     baseURL: 'https://dapi.kakao.com/v2/local',
 });
@@ -49,7 +49,7 @@ const googleAPI = axios_1.default.create({
 const naverApi = axios_1.default.create({
     baseURL: 'https://naveropenapi.apigw.ntruss.com',
 });
-let Location = class Location {
+let SocialLocationService = class SocialLocationService {
     constructor(config) {
         this.config = config;
     }
@@ -196,10 +196,10 @@ let Location = class Location {
         return Number((dist / 1000).toFixed(3));
     }
 };
-Location = __decorate([
+SocialLocationService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, common_1.Inject)(location_module_1.LOCATION_CONFIG)),
+    __param(0, (0, common_1.Inject)(constants_1.LOCATION_CONFIG)),
     __metadata("design:paramtypes", [Object])
-], Location);
-exports.Location = Location;
+], SocialLocationService);
+exports.SocialLocationService = SocialLocationService;
 //# sourceMappingURL=location.js.map

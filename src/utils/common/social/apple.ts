@@ -1,18 +1,31 @@
 import AppleAuth from 'apple-auth';
 import jwt from 'jsonwebtoken';
 
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
 
 import type { Response } from 'express';
 import { APPLE_CONFIG } from './constant';
-import type { AppleUser } from './type';
+import type { AppleConfig, AppleUser } from './type';
 
 @Injectable()
 class AppleLogin {
-  constructor(@Inject(APPLE_CONFIG) private readonly appleAuth: AppleAuth | null) {}
+  private appleAuth: AppleAuth;
+  constructor(@Inject(APPLE_CONFIG) private readonly appleConfig: AppleConfig | null) {
+    this.appleAuth = this.setAppleAuth();
+  }
+
+  private setAppleAuth() {
+    if (!this.appleConfig) {
+      throw new InternalServerErrorException('애플 로그인 설정이 없습니다.');
+    }
+
+    return new AppleAuth(this.appleConfig?.appleConfig, this.appleConfig?.path, 'test');
+  }
 
   public getRest(res: Response) {
-    if (!this.appleAuth) throw { status: 500, message: '애플 로그인 설정 오류!' };
+    if (!this.appleConfig) {
+      throw new InternalServerErrorException('애플 로그인 설정이 없습니다.');
+    }
 
     res.redirect(this.appleAuth.loginURL());
   }

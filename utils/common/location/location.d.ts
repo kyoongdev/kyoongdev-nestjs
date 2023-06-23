@@ -1,5 +1,5 @@
 import type { DistanceProps, GoogleGeocodeResponse, IGoogleGeocode, IKakaoAddress, IKakaoGeocode, IKakaoKeyword, KakaoAddressResponse, KakaoGeocodeResponse, KakaoKeywordResponse, LocationProps, NaverGeocodeQuery, NaverGeocodeResponse, NaverLocationConfig } from './type';
-declare class Location {
+declare class SocialLocationService {
     private readonly config;
     constructor(config: LocationProps);
     private getKakaoHeader;
@@ -24,4 +24,4 @@ declare class Location {
     } | null>;
     static getDistance({ target, current }: DistanceProps): number;
 }
-export { Location };
+export { SocialLocationService };

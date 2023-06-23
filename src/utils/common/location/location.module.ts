@@ -1,9 +1,8 @@
 import { DynamicModule, Module, type Provider } from '@nestjs/common';
 
+import { LOCATION_CONFIG } from './constants';
 import { SocialLocationService } from './location';
 import { type LocationProps } from './type';
-
-export const LOCATION_CONFIG = Symbol('LOCATION_CONFIG');
 
 @Module({
   providers: [SocialLocationService],

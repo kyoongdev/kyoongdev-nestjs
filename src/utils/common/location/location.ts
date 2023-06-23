@@ -2,7 +2,8 @@ import axios from 'axios';
 import queryString from 'query-string';
 
 import { Inject, Injectable } from '@nestjs/common';
-import { LOCATION_CONFIG } from './location.module';
+
+import { LOCATION_CONFIG } from './constants';
 import type {
   DistanceProps,
   GoogleGeocode,

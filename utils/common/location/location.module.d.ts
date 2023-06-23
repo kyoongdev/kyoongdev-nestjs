@@ -1,6 +1,5 @@
 import { DynamicModule } from '@nestjs/common';
 import { type LocationProps } from './type';
-export declare const LOCATION_CONFIG: unique symbol;
-export declare class LocationModule {
+export declare class SocialLocationModule {
     static forRoot(config?: LocationProps): DynamicModule;
 }
