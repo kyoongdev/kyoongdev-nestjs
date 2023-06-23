@@ -26,16 +26,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 var AppleLogin_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppleLogin = void 0;
+const apple_auth_1 = __importDefault(require("apple-auth"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const common_1 = require("@nestjs/common");
 const constant_1 = require("./constant");
 let AppleLogin = AppleLogin_1 = class AppleLogin {
-    constructor(appleAuth) {
-        this.appleAuth = appleAuth;
+    constructor(appleConfig) {
+        this.appleConfig = appleConfig;
+        this.appleAuth = this.setAppleAuth();
+    }
+    setAppleAuth() {
+        var _a, _b;
+        if (!this.appleConfig) {
+            throw new common_1.InternalServerErrorException('애플 로그인 설정이 없습니다.');
+        }
+        return new apple_auth_1.default((_a = this.appleConfig) === null || _a === void 0 ? void 0 : _a.appleConfig, (_b = this.appleConfig) === null || _b === void 0 ? void 0 : _b.path, 'test');
     }
     getRest(res) {
-        if (!this.appleAuth)
-            throw { status: 500, message: '애플 로그인 설정 오류!' };
+        if (!this.appleConfig) {
+            throw new common_1.InternalServerErrorException('애플 로그인 설정이 없습니다.');
+        }
         res.redirect(this.appleAuth.loginURL());
     }
     static getUser(id_token) {
