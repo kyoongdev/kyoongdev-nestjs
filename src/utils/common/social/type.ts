@@ -3,6 +3,7 @@ import type { AppleAuthConfig } from 'apple-auth';
 export interface AppleUser {
   id: string;
   email?: string;
+  name?: string;
 }
 
 export interface NaverUser {
