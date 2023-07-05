@@ -79,6 +79,16 @@ let SocialLocationService = class SocialLocationService {
             return data;
         });
     }
+    getNaverReverseLocation(params, config) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { coordinate } = params, rest = __rest(params, ["coordinate"]);
+            const { data } = yield naverApi.get('/map-reversegeocode/v2/gc', {
+                headers: this.getNaverHeader(config),
+                params: Object.assign(Object.assign({}, rest), { coords: `${coordinate.longitude},${coordinate.latitude}` }),
+            });
+            return data;
+        });
+    }
     parseGoogleGeocode(data) {
         const result = [];
         data.forEach((row) => {

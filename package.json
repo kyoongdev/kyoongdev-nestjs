@@ -1,6 +1,6 @@
 {
   "name": "wemacu-nestjs",
-  "version": "1.6.4",
+  "version": "1.6.6",
   "main": "build/index.js",
   "bin": "build/express/util/index.js",
   "license": "MIT",

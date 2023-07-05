@@ -144,13 +144,47 @@ export interface NaverGeocodeResponse {
 }
 export interface NaverGeocodeQuery {
     query: string;
-    coordinate?: {
-        longitude: string;
-        latitude: string;
-    };
+    coordinate?: Geocode;
     filter?: string;
     language?: string;
     page?: number;
     count?: number;
+}
+export interface NaverReverseGeocodeQuery {
+    request?: string;
+    coordinate: Geocode;
+    coords: `${string},${string}`;
+    sourcecrs?: string;
+    targetcrs?: string;
+    orders?: string;
+    output?: string;
+    callback?: string;
+}
+export interface NaverReverseGeocodeCode {
+    id: string;
+    type: string;
+    mappingId: string;
+}
+export interface NaverReverseGeocodeArea {
+    name: string;
+    coords: {
+        center: {
+            crs: string;
+            x: number;
+            y: number;
+        };
+    };
+}
+export interface NaverReverseGeocodeRegion {
+    area0: NaverReverseGeocodeArea;
+    area1: NaverReverseGeocodeArea;
+    area2: NaverReverseGeocodeArea;
+    area3: NaverReverseGeocodeArea;
+    area4: NaverReverseGeocodeArea;
+}
+export interface NaverReverseGeocodeResponse {
+    name: string;
+    code: NaverReverseGeocodeCode;
+    region: NaverReverseGeocodeRegion;
 }
 export {};

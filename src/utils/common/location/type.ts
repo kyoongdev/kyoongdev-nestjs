@@ -178,7 +178,6 @@ export interface NaverGeocodeQuery {
 export interface NaverReverseGeocodeQuery {
   request?: string;
   coordinate: Geocode; //검색 중심좌표 lon,lat
-  coords: `${string},${string}`;
   sourcecrs?: string;
   targetcrs?: string;
   orders?: string;
