@@ -86,7 +86,9 @@ let SocialLocationService = class SocialLocationService {
                 headers: this.getNaverHeader(config),
                 params: Object.assign(Object.assign({}, rest), { coords: `${coordinate.longitude},${coordinate.latitude}` }),
             });
-            return data;
+            if (data.status.code !== 0)
+                return null;
+            return data.results;
         });
     }
     parseGoogleGeocode(data) {

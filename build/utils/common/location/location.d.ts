@@ -1,11 +1,11 @@
-import type { DistanceProps, GoogleGeocodeResponse, IGoogleGeocode, IKakaoAddress, IKakaoGeocode, IKakaoKeyword, KakaoAddressResponse, KakaoGeocodeResponse, KakaoKeywordResponse, LocationProps, NaverGeocodeQuery, NaverGeocodeResponse, NaverLocationConfig, NaverReverseGeocodeQuery, NaverReverseGeocodeResponse } from './type';
+import type { DistanceProps, GoogleGeocodeResponse, IGoogleGeocode, IKakaoAddress, IKakaoGeocode, IKakaoKeyword, KakaoAddressResponse, KakaoGeocodeResponse, KakaoKeywordResponse, LocationProps, NaverGeocodeQuery, NaverGeocodeResponse, NaverLocationConfig, NaverReverseGeocode, NaverReverseGeocodeQuery } from './type';
 declare class SocialLocationService {
     private readonly config;
     constructor(config: LocationProps);
     private getKakaoHeader;
     private getNaverHeader;
     getNaverLocation(params: NaverGeocodeQuery, config?: NaverLocationConfig): Promise<NaverGeocodeResponse>;
-    getNaverReverseLocation(params: NaverReverseGeocodeQuery, config?: NaverLocationConfig): Promise<NaverReverseGeocodeResponse[]>;
+    getNaverReverseLocation(params: NaverReverseGeocodeQuery, config?: NaverLocationConfig): Promise<NaverReverseGeocode[] | null>;
     private parseGoogleGeocode;
     getKakaoLocationByAddress({ address, analyze_type, page, limit, kakaoRestKey, }: IKakaoAddress): Promise<{
         data: KakaoAddressResponse[];
