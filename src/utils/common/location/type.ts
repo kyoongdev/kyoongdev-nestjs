@@ -210,8 +210,13 @@ export interface NaverReverseGeocodeRegion {
   area4: NaverReverseGeocodeArea;
 }
 
-export interface NaverReverseGeocodeResponse {
+export interface NaverReverseGeocode {
   name: string;
   code: NaverReverseGeocodeCode;
   region: NaverReverseGeocodeRegion;
+}
+
+export interface NaverReverseGeocodeResponse {
+  status: { code: number; name: string; message: string };
+  results: NaverReverseGeocode[];
 }

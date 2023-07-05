@@ -5,7 +5,7 @@ declare class SocialLocationService {
     private getKakaoHeader;
     private getNaverHeader;
     getNaverLocation(params: NaverGeocodeQuery, config?: NaverLocationConfig): Promise<NaverGeocodeResponse>;
-    getNaverReverseLocation(params: NaverReverseGeocodeQuery, config?: NaverLocationConfig): Promise<NaverReverseGeocodeResponse>;
+    getNaverReverseLocation(params: NaverReverseGeocodeQuery, config?: NaverLocationConfig): Promise<NaverReverseGeocodeResponse[]>;
     private parseGoogleGeocode;
     getKakaoLocationByAddress({ address, analyze_type, page, limit, kakaoRestKey, }: IKakaoAddress): Promise<{
         data: KakaoAddressResponse[];

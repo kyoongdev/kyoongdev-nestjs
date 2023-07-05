@@ -19,6 +19,7 @@ import type {
   NaverGeocodeQuery,
   NaverGeocodeResponse,
   NaverLocationConfig,
+  NaverReverseGeocode,
   NaverReverseGeocodeQuery,
   NaverReverseGeocodeResponse,
 } from './type';
@@ -74,16 +75,19 @@ class SocialLocationService {
   public async getNaverReverseLocation(
     params: NaverReverseGeocodeQuery,
     config?: NaverLocationConfig
-  ): Promise<NaverReverseGeocodeResponse[]> {
+  ): Promise<NaverReverseGeocode[] | null> {
     const { coordinate, ...rest } = params;
-    const { data } = await naverApi.get<NaverReverseGeocodeResponse[]>('/map-reversegeocode/v2/gc', {
+    const { data } = await naverApi.get<NaverReverseGeocodeResponse>('/map-reversegeocode/v2/gc', {
       headers: this.getNaverHeader(config),
       params: {
         ...rest,
         coords: `${coordinate.longitude},${coordinate.latitude}`,
       },
     });
-    return data;
+
+    if (data.status.code !== 0) return null;
+
+    return data.results;
   }
 
   private parseGoogleGeocode(data: GoogleGeocode[]): Array<GoogleGeocodeResponse> {
