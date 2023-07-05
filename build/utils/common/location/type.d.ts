@@ -153,7 +153,6 @@ export interface NaverGeocodeQuery {
 export interface NaverReverseGeocodeQuery {
     request?: string;
     coordinate: Geocode;
-    coords: `${string},${string}`;
     sourcecrs?: string;
     targetcrs?: string;
     orders?: string;

@@ -74,9 +74,9 @@ class SocialLocationService {
   public async getNaverReverseLocation(
     params: NaverReverseGeocodeQuery,
     config?: NaverLocationConfig
-  ): Promise<NaverReverseGeocodeResponse> {
+  ): Promise<NaverReverseGeocodeResponse[]> {
     const { coordinate, ...rest } = params;
-    const { data } = await naverApi.get<NaverReverseGeocodeResponse>('/map-reversegeocode/v2/gc', {
+    const { data } = await naverApi.get<NaverReverseGeocodeResponse[]>('/map-reversegeocode/v2/gc', {
       headers: this.getNaverHeader(config),
       params: {
         ...rest,
