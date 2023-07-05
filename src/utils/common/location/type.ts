@@ -168,12 +168,51 @@ export interface NaverGeocodeResponse {
 }
 export interface NaverGeocodeQuery {
   query: string; //주소
-  coordinate?: {
-    longitude: string;
-    latitude: string;
-  }; //검색 중심좌표 lon,lat
+  coordinate?: Geocode; //검색 중심좌표 lon,lat
   filter?: string;
   language?: string;
   page?: number;
   count?: number;
+}
+
+export interface NaverReverseGeocodeQuery {
+  request?: string;
+  coordinate: Geocode; //검색 중심좌표 lon,lat
+  coords: `${string},${string}`;
+  sourcecrs?: string;
+  targetcrs?: string;
+  orders?: string;
+  output?: string;
+  callback?: string;
+}
+
+export interface NaverReverseGeocodeCode {
+  id: string;
+  type: string;
+  mappingId: string;
+}
+
+export interface NaverReverseGeocodeArea {
+  name: string;
+  coords: {
+    center: {
+      crs: string;
+      x: number;
+      y: number;
+    };
+  };
+}
+
+export interface NaverReverseGeocodeRegion {
+  area0: NaverReverseGeocodeArea;
+  area1: NaverReverseGeocodeArea;
+  area2: NaverReverseGeocodeArea;
+  area3: NaverReverseGeocodeArea;
+  area4: NaverReverseGeocodeArea;
+}
+
+export interface NaverReverseGeocodeResponse {
+  name: string;
+  code: NaverReverseGeocodeCode;
+  region: NaverReverseGeocodeRegion;
 }

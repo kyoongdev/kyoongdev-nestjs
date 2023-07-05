@@ -19,6 +19,8 @@ import type {
   NaverGeocodeQuery,
   NaverGeocodeResponse,
   NaverLocationConfig,
+  NaverReverseGeocodeQuery,
+  NaverReverseGeocodeResponse,
 } from './type';
 
 const kakaoApi = axios.create({
@@ -64,6 +66,21 @@ class SocialLocationService {
       params: {
         ...rest,
         coordinate: coordinate ? `${coordinate.longitude},${coordinate.latitude}` : undefined,
+      },
+    });
+    return data;
+  }
+
+  public async getNaverReverseLocation(
+    params: NaverReverseGeocodeQuery,
+    config?: NaverLocationConfig
+  ): Promise<NaverReverseGeocodeResponse> {
+    const { coordinate, ...rest } = params;
+    const { data } = await naverApi.get<NaverReverseGeocodeResponse>('/map-reversegeocode/v2/gc', {
+      headers: this.getNaverHeader(config),
+      params: {
+        ...rest,
+        coords: `${coordinate.longitude},${coordinate.latitude}`,
       },
     });
     return data;
