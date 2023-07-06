@@ -10,5 +10,5 @@ export const Paging = createParamDecorator((data: any, ctx: ExecutionContext) =>
   const request = ctx.switchToHttp().getRequest();
 
   const { page, limit } = request.query;
-  return new PagingDTO(page ?? 0, limit ?? 20);
+  return new PagingDTO(page ? page - 1 : 0, limit ?? 20);
 });
