@@ -23,4 +23,11 @@ export class PagingDTO {
 
     return { skip, take };
   }
+
+  public getSqlPaging(): PagingDTO {
+    return {
+      ...this,
+      page: this.page ? this.page - 1 : 1,
+    };
+  }
 }
