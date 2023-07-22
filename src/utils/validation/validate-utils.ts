@@ -51,9 +51,11 @@ export const ValidateOption = (
       IsOptional(validationOptions)(object, propertyName);
     }
 
-    if (apiProperty.isArray) {
-      Transform(({ value }) => (Array.isArray(value) ? value : Array(value)))(object, propertyName);
-    }
+    // if (apiProperty.isArray) {
+    //   Transform(({ value }) =>
+    //     Array.isArray(value) ? value : typeof value === 'undefined' ? undefined : Array(value)
+    //   )(object, propertyName);
+    // }
 
     registerDecorator({
       name: options.name,

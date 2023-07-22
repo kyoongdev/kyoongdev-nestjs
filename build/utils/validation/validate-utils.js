@@ -18,9 +18,6 @@ const ValidateOption = (options, typeOptions = {}, apiProperty, validationOption
         if (apiProperty.nullable) {
             (0, class_validator_1.IsOptional)(validationOptions)(object, propertyName);
         }
-        if (apiProperty.isArray) {
-            (0, class_transformer_1.Transform)(({ value }) => (Array.isArray(value) ? value : Array(value)))(object, propertyName);
-        }
         (0, class_validator_1.registerDecorator)({
             name: options.name,
             target: object.constructor,

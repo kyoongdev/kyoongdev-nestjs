@@ -21,6 +21,9 @@ class PagingDTO {
         const skip = (Number(this.page) - 1) * take;
         return { skip, take };
     }
+    getSqlPaging() {
+        return Object.assign(Object.assign({}, this), { page: this.page ? this.page - 1 : 1 });
+    }
 }
 __decorate([
     (0, validation_1.Property)({ apiProperty: { type: 'number', minimum: 1, default: 1 } }),

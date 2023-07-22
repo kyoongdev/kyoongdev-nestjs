@@ -7,4 +7,5 @@ export declare class PagingDTO {
     limit?: number;
     constructor(page: number, limit: number);
     getSkipTake(): SkipTake;
+    getSqlPaging(): PagingDTO;
 }
