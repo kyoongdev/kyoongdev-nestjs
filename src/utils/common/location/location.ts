@@ -137,7 +137,7 @@ class SocialLocationService {
       size: limit,
     };
 
-    const response = await kakaoApi.get('/local/search/address', {
+    const response = await kakaoApi.get('/search/address', {
       params,
       headers: this.getKakaoHeader(kakaoRestKey),
     });
@@ -173,7 +173,7 @@ class SocialLocationService {
       category_group_code: category_group_code && KAKAO_CATEGORY_CODE[category_group_code],
     };
 
-    const response = await kakaoApi.get('/local/search/keyword', {
+    const response = await kakaoApi.get('/search/keyword', {
       params,
       headers: this.getKakaoHeader(kakaoRestKey),
     });

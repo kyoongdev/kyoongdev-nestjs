@@ -50,14 +50,25 @@ interface KakaoAddress extends Address {
     x: string;
     y: string;
 }
-type KakaoRoadAddress = Pick<KakaoAddress, 'address_name' | 'region_1depth_name' | 'region_2depth_name' | 'region_3depth_name'> & {
+interface KakaoRoadAddress extends Pick<KakaoAddress, 'address_name' | 'region_1depth_name' | 'region_2depth_name' | 'region_3depth_name'> {
     road_name: string;
     underground_yn: 'Y' | 'N';
     main_building_no: string;
     sub_building_no: string;
     building_name: string;
     zone_no: string;
-};
+}
+export interface KakaoSameName {
+    region: any[];
+    keyword: string;
+    selected_region: string;
+}
+export interface KakaoMeta {
+    same_name: KakaoSameName;
+    pageable_count: number;
+    total_count: number;
+    is_end: boolean;
+}
 export interface KakaoAddressResponse extends KakaoGeocode {
     address_name: string;
     address_type: KakaoAddressType;

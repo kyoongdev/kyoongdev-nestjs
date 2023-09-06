@@ -1,4 +1,4 @@
-import { type DistanceProps, type GoogleGeocodeProps, type GoogleGeocodeResponse, type KakaoAddressProps, type KakaoAddressResponse, type KakaoGeocodeProps, type KakaoGeocodeResponse, type KakaoKeywordProps, type KakaoKeywordResponse, type LocationProps, type NaverGeocodeQuery, type NaverGeocodeResponse, type NaverLocationConfig, type NaverReverseGeocode, type NaverReverseGeocodeQuery } from './type';
+import { KakaoMeta, type DistanceProps, type GoogleGeocodeProps, type GoogleGeocodeResponse, type KakaoAddressProps, type KakaoAddressResponse, type KakaoGeocodeProps, type KakaoGeocodeResponse, type KakaoKeywordProps, type KakaoKeywordResponse, type LocationProps, type NaverGeocodeQuery, type NaverGeocodeResponse, type NaverLocationConfig, type NaverReverseGeocode, type NaverReverseGeocodeQuery } from './type';
 declare class SocialLocationService {
     private readonly config;
     constructor(config: LocationProps);
@@ -13,7 +13,7 @@ declare class SocialLocationService {
     } | null>;
     getKakaoLocationByKeyword({ keyword, latitude, longitude, radius, page, limit, kakaoRestKey, category_group_code, }: KakaoKeywordProps): Promise<{
         data: Array<KakaoKeywordResponse>;
-        count: number;
+        count: KakaoMeta;
     } | null>;
     getKakaoLocationByGeocode({ latitude, longitude, page, limit, kakaoRestKey, }: KakaoGeocodeProps): Promise<{
         data: KakaoGeocodeResponse;
