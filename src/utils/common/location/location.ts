@@ -167,9 +167,12 @@ class SocialLocationService {
       query: keyword,
       page,
       size: limit,
-      x: longitude,
-      y: latitude,
-      radius,
+      ...(longitude &&
+        latitude && {
+          x: longitude,
+          y: latitude,
+          radius,
+        }),
       category_group_code: category_group_code && KAKAO_CATEGORY_CODE[category_group_code],
     };
 
