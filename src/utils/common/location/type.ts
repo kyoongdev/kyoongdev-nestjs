@@ -45,10 +45,10 @@ interface Address {
 }
 
 interface Kakao {
-  kakaoRestKey: string | undefined;
+  kakaoRestKey?: string;
 }
 interface Google {
-  googleRestKey: string | undefined;
+  googleRestKey?: string;
 }
 
 interface KakaoAddress extends Address {
@@ -105,7 +105,7 @@ export const KAKAO_CATEGORY_CODE = {
   약국: 'PM9',
 } as const;
 
-export interface KakaoKeywordProps extends Pagination, Geocode, Kakao {
+export interface KakaoKeywordProps extends Partial<Pagination>, Geocode, Kakao {
   keyword: string;
   category_group_code?: keyof typeof KAKAO_CATEGORY_CODE;
   radius?: number;

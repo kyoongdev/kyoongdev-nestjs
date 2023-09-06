@@ -40,6 +40,7 @@ const axios_1 = __importDefault(require("axios"));
 const query_string_1 = __importDefault(require("query-string"));
 const common_1 = require("@nestjs/common");
 const constants_1 = require("./constants");
+const type_1 = require("./type");
 const kakaoApi = axios_1.default.create({
     baseURL: 'https://dapi.kakao.com/v2/local',
 });
@@ -123,14 +124,16 @@ let SocialLocationService = class SocialLocationService {
     }
     getKakaoLocationByAddress({ address, analyze_type = 'similar', page = 1, limit = 20, kakaoRestKey, }) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = {
+            const params = {
                 query: address,
                 analyze_type,
                 page,
                 size: limit,
             };
-            const url = `/local/search/address?${query_string_1.default.stringify(query)}`;
-            const response = yield kakaoApi.get(url, { headers: this.getKakaoHeader(kakaoRestKey) });
+            const response = yield kakaoApi.get('/local/search/address', {
+                params,
+                headers: this.getKakaoHeader(kakaoRestKey),
+            });
             if (!response)
                 return null;
             const documents = response.data.documents;
@@ -142,18 +145,21 @@ let SocialLocationService = class SocialLocationService {
             };
         });
     }
-    getKakaoLocationByKeyword({ keyword, latitude, longitude, radius = 200, page = 1, limit = 20, kakaoRestKey, }) {
+    getKakaoLocationByKeyword({ keyword, latitude, longitude, radius = 200, page = 1, limit = 20, kakaoRestKey, category_group_code, }) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = {
+            const params = {
                 query: keyword,
                 page,
                 size: limit,
                 x: longitude,
                 y: latitude,
                 radius,
+                category_group_code: category_group_code && type_1.KAKAO_CATEGORY_CODE[category_group_code],
             };
-            const kakaoUrl = `/local/search/keyword?${query_string_1.default.stringify(query)}`;
-            const response = yield kakaoApi.get(kakaoUrl, { headers: this.getKakaoHeader(kakaoRestKey) });
+            const response = yield kakaoApi.get('/local/search/keyword', {
+                params,
+                headers: this.getKakaoHeader(kakaoRestKey),
+            });
             if (!response)
                 return null;
             return { data: response.data.documents, count: response.data.meta };
@@ -172,13 +178,14 @@ let SocialLocationService = class SocialLocationService {
         return __awaiter(this, void 0, void 0, function* () {
             if (!googleRestKey && this.config.googleRestKey)
                 throw { status: 500, message: 'Google Rest Key is not defined' };
-            const query = {
+            const params = {
                 latlng: `${latitude},${longitude}`,
                 key: (_a = this.config.googleRestKey) !== null && _a !== void 0 ? _a : googleRestKey,
                 language: 'ko',
             };
-            const url = `/geocode/json?${query_string_1.default.stringify(query)}`;
-            const response = yield googleAPI.get(url);
+            const response = yield googleAPI.get('/geocode/json', {
+                params,
+            });
             if (!response)
                 return null;
             return { data: this.parseGoogleGeocode(response.data.results), count: response.data.results.length };

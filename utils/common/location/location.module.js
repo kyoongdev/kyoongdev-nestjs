@@ -16,7 +16,7 @@ let SocialLocationModule = SocialLocationModule_1 = class SocialLocationModule {
         const providers = [
             {
                 provide: constants_1.LOCATION_CONFIG,
-                useValue: config || null,
+                useValue: config,
             },
         ];
         return {
