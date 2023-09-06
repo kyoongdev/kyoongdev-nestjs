@@ -22,7 +22,7 @@ class PagingDTO {
         return { skip, take };
     }
     getSqlPaging() {
-        return Object.assign(Object.assign({}, this), { page: this.page ? this.page - 1 : 1 });
+        return Object.assign(Object.assign({}, this), { page: (this.page ? this.page - 1 : 1) * (this.limit || 1) });
     }
 }
 __decorate([
@@ -30,7 +30,7 @@ __decorate([
     __metadata("design:type", Number)
 ], PagingDTO.prototype, "page", void 0);
 __decorate([
-    (0, validation_1.Property)({ apiProperty: { type: 'number', minimum: 20, default: 20 } }),
+    (0, validation_1.Property)({ apiProperty: { type: 'number', minimum: 1, default: 20 } }),
     __metadata("design:type", Number)
 ], PagingDTO.prototype, "limit", void 0);
 exports.PagingDTO = PagingDTO;

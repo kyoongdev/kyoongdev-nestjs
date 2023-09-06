@@ -13,7 +13,7 @@ export class SocialLocationModule {
     const providers: Provider[] = [
       {
         provide: LOCATION_CONFIG,
-        useValue: config || null,
+        useValue: config,
       },
     ];
     return {

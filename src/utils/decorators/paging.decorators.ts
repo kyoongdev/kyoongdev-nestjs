@@ -6,7 +6,7 @@ export interface PagingQuery {
   limit: number;
 }
 
-export const Paging = createParamDecorator((data: any, ctx: ExecutionContext) => {
+export const Paging = createParamDecorator((_, ctx: ExecutionContext) => {
   const request = ctx.switchToHttp().getRequest();
 
   const { page, limit } = request.query;

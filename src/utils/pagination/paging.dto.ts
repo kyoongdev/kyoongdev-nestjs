@@ -7,10 +7,10 @@ export interface SkipTake {
 
 export class PagingDTO {
   @Property({ apiProperty: { type: 'number', minimum: 1, default: 1 } })
-  page?: number;
+  page: number;
 
   @Property({ apiProperty: { type: 'number', minimum: 1, default: 20 } })
-  limit?: number;
+  limit: number;
 
   constructor(page: number, limit: number) {
     this.page = page;
@@ -27,7 +27,7 @@ export class PagingDTO {
   public getSqlPaging(): PagingDTO {
     return {
       ...this,
-      page: this.page ? this.page - 1 : 1,
+      page: (this.page ? this.page - 1 : 1) * (this.limit || 1),
     };
   }
 }

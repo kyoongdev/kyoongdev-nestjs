@@ -1,11 +1,11 @@
 {
-  "name": "wemacu-nestjs",
-  "version": "1.7.4",
+  "name": "cumuco-nestjs",
+  "version": "1.1.0",
   "main": "build/index.js",
   "bin": "build/express/util/index.js",
   "license": "MIT",
-  "repository": "https://github.com/wemcau/wemacu-nestjs",
-  "author": "wemacu <dev@wemacu.net>",
+  "repository": "https://github.com/cumuco/cumuco-nestjs",
+  "author": "cumuco <dev@cumuco.net>",
   "scripts": {
     "clear": "node scripts/clear-build.js",
     "build": "yarn clear && tsc -b && node scripts/copy-build.js",

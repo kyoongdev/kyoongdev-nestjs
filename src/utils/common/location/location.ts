@@ -4,24 +4,25 @@ import queryString from 'query-string';
 import { Inject, Injectable } from '@nestjs/common';
 
 import { LOCATION_CONFIG } from './constants';
-import type {
-  DistanceProps,
-  GoogleGeocode,
-  GoogleGeocodeResponse,
-  IGoogleGeocode,
-  IKakaoAddress,
-  IKakaoGeocode,
-  IKakaoKeyword,
-  KakaoAddressResponse,
-  KakaoGeocodeResponse,
-  KakaoKeywordResponse,
-  LocationProps,
-  NaverGeocodeQuery,
-  NaverGeocodeResponse,
-  NaverLocationConfig,
-  NaverReverseGeocode,
-  NaverReverseGeocodeQuery,
-  NaverReverseGeocodeResponse,
+import {
+  KAKAO_CATEGORY_CODE,
+  type DistanceProps,
+  type GoogleGeocode,
+  type GoogleGeocodeProps,
+  type GoogleGeocodeResponse,
+  type KakaoAddressProps,
+  type KakaoAddressResponse,
+  type KakaoGeocodeProps,
+  type KakaoGeocodeResponse,
+  type KakaoKeywordProps,
+  type KakaoKeywordResponse,
+  type LocationProps,
+  type NaverGeocodeQuery,
+  type NaverGeocodeResponse,
+  type NaverLocationConfig,
+  type NaverReverseGeocode,
+  type NaverReverseGeocodeQuery,
+  type NaverReverseGeocodeResponse,
 } from './type';
 
 const kakaoApi = axios.create({
@@ -127,17 +128,18 @@ class SocialLocationService {
     page = 1,
     limit = 20,
     kakaoRestKey,
-  }: IKakaoAddress): Promise<{ data: KakaoAddressResponse[]; count: number } | null> {
-    const query = {
+  }: KakaoAddressProps): Promise<{ data: KakaoAddressResponse[]; count: number } | null> {
+    const params = {
       query: address,
       analyze_type,
       page,
       size: limit,
     };
 
-    const url = `/local/search/address?${queryString.stringify(query)}`;
-
-    const response = await kakaoApi.get(url, { headers: this.getKakaoHeader(kakaoRestKey) });
+    const response = await kakaoApi.get('/local/search/address', {
+      params,
+      headers: this.getKakaoHeader(kakaoRestKey),
+    });
     if (!response) return null;
 
     const documents = response.data.documents;
@@ -158,19 +160,22 @@ class SocialLocationService {
     page = 1,
     limit = 20,
     kakaoRestKey,
-  }: IKakaoKeyword): Promise<{ data: Array<KakaoKeywordResponse>; count: number } | null> {
-    const query = {
+    category_group_code,
+  }: KakaoKeywordProps): Promise<{ data: Array<KakaoKeywordResponse>; count: number } | null> {
+    const params = {
       query: keyword,
       page,
       size: limit,
       x: longitude,
       y: latitude,
       radius,
+      category_group_code: category_group_code && KAKAO_CATEGORY_CODE[category_group_code],
     };
 
-    const kakaoUrl = `/local/search/keyword?${queryString.stringify(query)}`;
-
-    const response = await kakaoApi.get(kakaoUrl, { headers: this.getKakaoHeader(kakaoRestKey) });
+    const response = await kakaoApi.get('/local/search/keyword', {
+      params,
+      headers: this.getKakaoHeader(kakaoRestKey),
+    });
     if (!response) return null;
 
     return { data: response.data.documents, count: response.data.meta };
@@ -182,7 +187,7 @@ class SocialLocationService {
     page = 1,
     limit = 20,
     kakaoRestKey,
-  }: IKakaoGeocode): Promise<{ data: KakaoGeocodeResponse; count: number } | null> {
+  }: KakaoGeocodeProps): Promise<{ data: KakaoGeocodeResponse; count: number } | null> {
     const query = { x: longitude, y: latitude, page, size: limit };
     const url = `/geo/coord2address?${queryString.stringify(query)}`;
 
@@ -191,17 +196,18 @@ class SocialLocationService {
     return { data: response.data.documents, count: response.data.meta };
   }
 
-  public async getGoogleLocationByGeocode({ googleRestKey, latitude, longitude }: IGoogleGeocode) {
+  public async getGoogleLocationByGeocode({ googleRestKey, latitude, longitude }: GoogleGeocodeProps) {
     if (!googleRestKey && this.config.googleRestKey) throw { status: 500, message: 'Google Rest Key is not defined' };
 
-    const query = {
+    const params = {
       latlng: `${latitude},${longitude}`,
       key: this.config.googleRestKey ?? googleRestKey,
       language: 'ko',
     };
 
-    const url = `/geocode/json?${queryString.stringify(query)}`;
-    const response = await googleAPI.get(url);
+    const response = await googleAPI.get('/geocode/json', {
+      params,
+    });
 
     if (!response) return null;
 

@@ -44,10 +44,10 @@ interface Address {
   region_3depth_h_name: string;
 }
 
-interface IKakao {
+interface Kakao {
   kakaoRestKey: string | undefined;
 }
-interface IGoogle {
+interface Google {
   googleRestKey: string | undefined;
 }
 
@@ -79,16 +79,38 @@ export interface KakaoAddressResponse extends KakaoGeocode {
   address: KakaoAddress;
 }
 
-export interface IKakaoAddress extends Pagination, IKakao {
+export interface KakaoAddressProps extends Pagination, Kakao {
   address: string;
   analyze_type?: 'similar' | 'exact';
 }
 
-export interface IKakaoKeyword extends Pagination, Geocode, IKakao {
+export const KAKAO_CATEGORY_CODE = {
+  대형마트: 'MT1',
+  편의점: 'CS2',
+  '어린이집, 유치원': 'PS3',
+  학교: 'SC4',
+  학원: 'AC5',
+  주차장: 'PK6',
+  '주유소, 충전소': 'OL7',
+  지하철역: 'SW8',
+  은행: 'BK9',
+  문화시설: 'CT1',
+  중개업소: 'AG2',
+  공공기관: 'PO3',
+  관광명소: 'AT4',
+  숙박: 'AD5',
+  음식점: 'FD6',
+  카페: 'CE7',
+  병원: 'HP8',
+  약국: 'PM9',
+} as const;
+
+export interface KakaoKeywordProps extends Pagination, Geocode, Kakao {
   keyword: string;
+  category_group_code?: keyof typeof KAKAO_CATEGORY_CODE;
   radius?: number;
 }
-export interface IKakaoGeocode extends Pagination, Geocode, IKakao {}
+export interface KakaoGeocodeProps extends Pagination, Geocode, Kakao {}
 
 export interface KakaoKeywordResponse extends KakaoGeocode {
   id: string;
@@ -128,7 +150,7 @@ export interface GoogleGeometry {
   types: Array<string>;
 }
 
-export interface IGoogleGeocode extends IGoogle, Geocode {}
+export interface GoogleGeocodeProps extends Google, Geocode {}
 
 export interface GoogleGeocode {
   address_components: Array<GoogleAddressComponents>;
