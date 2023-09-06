@@ -36,10 +36,10 @@ interface Address {
     region_3depth_h_name: string;
 }
 interface Kakao {
-    kakaoRestKey: string | undefined;
+    kakaoRestKey?: string;
 }
 interface Google {
-    googleRestKey: string | undefined;
+    googleRestKey?: string;
 }
 interface KakaoAddress extends Address {
     h_code: string;
@@ -87,7 +87,7 @@ export declare const KAKAO_CATEGORY_CODE: {
     readonly 병원: "HP8";
     readonly 약국: "PM9";
 };
-export interface KakaoKeywordProps extends Pagination, Geocode, Kakao {
+export interface KakaoKeywordProps extends Partial<Pagination>, Geocode, Kakao {
     keyword: string;
     category_group_code?: keyof typeof KAKAO_CATEGORY_CODE;
     radius?: number;
