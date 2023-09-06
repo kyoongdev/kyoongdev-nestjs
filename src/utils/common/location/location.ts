@@ -5,6 +5,7 @@ import { Inject, Injectable } from '@nestjs/common';
 
 import { LOCATION_CONFIG } from './constants';
 import {
+  KakaoMeta,
   KAKAO_CATEGORY_CODE,
   type DistanceProps,
   type GoogleGeocode,
@@ -161,7 +162,7 @@ class SocialLocationService {
     limit = 20,
     kakaoRestKey,
     category_group_code,
-  }: KakaoKeywordProps): Promise<{ data: Array<KakaoKeywordResponse>; count: number } | null> {
+  }: KakaoKeywordProps): Promise<{ data: Array<KakaoKeywordResponse>; count: KakaoMeta } | null> {
     const params = {
       query: keyword,
       page,
