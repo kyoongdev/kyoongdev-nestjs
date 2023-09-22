@@ -147,22 +147,22 @@ let SocialLocationService = class SocialLocationService {
     }
     getKakaoLocationByKeyword({ keyword, latitude, longitude, radius = 200, page = 1, limit = 20, kakaoRestKey, category_group_code, }) {
         return __awaiter(this, void 0, void 0, function* () {
-            const params = {
-                query: keyword,
-                page,
-                size: limit,
+            const params = Object.assign(Object.assign({ query: keyword, page, size: limit }, (longitude &&
+                latitude && {
                 x: longitude,
                 y: latitude,
                 radius,
-                category_group_code: category_group_code && type_1.KAKAO_CATEGORY_CODE[category_group_code],
-            };
+            })), { category_group_code: category_group_code && type_1.KAKAO_CATEGORY_CODE[category_group_code] });
             const response = yield kakaoApi.get('/search/keyword', {
                 params,
                 headers: this.getKakaoHeader(kakaoRestKey),
             });
             if (!response)
                 return null;
-            return { data: response.data.documents, count: response.data.meta };
+            return {
+                data: response.data.documents,
+                count: Object.assign(Object.assign({}, response.data.meta), { page }),
+            };
         });
     }
     getKakaoLocationByGeocode({ latitude, longitude, page = 1, limit = 20, kakaoRestKey, }) {

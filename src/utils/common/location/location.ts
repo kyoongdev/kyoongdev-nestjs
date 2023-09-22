@@ -182,7 +182,13 @@ class SocialLocationService {
     });
     if (!response) return null;
 
-    return { data: response.data.documents, count: response.data.meta };
+    return {
+      data: response.data.documents,
+      count: {
+        ...response.data.meta,
+        page,
+      },
+    };
   }
 
   public async getKakaoLocationByGeocode({

@@ -17,7 +17,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./error"), exports);
 __exportStar(require("./firebase"), exports);
 __exportStar(require("./hangul"), exports);
-__exportStar(require("./iamport"), exports);
 __exportStar(require("./location"), exports);
 __exportStar(require("./qrcode"), exports);
 __exportStar(require("./social"), exports);

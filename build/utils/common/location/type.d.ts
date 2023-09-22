@@ -68,6 +68,7 @@ export interface KakaoMeta {
     pageable_count: number;
     total_count: number;
     is_end: boolean;
+    count: number;
 }
 export interface KakaoAddressResponse extends KakaoGeocode {
     address_name: string;
