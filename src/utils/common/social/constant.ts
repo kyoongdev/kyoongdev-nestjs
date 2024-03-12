@@ -19,7 +19,7 @@ const KAKAO_URL = {
 
 const GOOGLE_URL = {
   TOKEN: 'https://oauth2.googleapis.com/token',
-  USER_WEB: 'https://www.googleapis.com/oauth2/v2/userinfo',
+  USER_WEB: 'https://www.googleapis.com/userinfo/v2/me',
   USER_APP(id_token: string) {
     return 'https://oauth2.googleapis.com/tokeninfo?id_token=' + id_token;
   },
@@ -37,12 +37,6 @@ const GOOGLE_URL = {
     });
 
     return `https://accounts.google.com/o/oauth2/auth?${GOOGLE_AUTH_URL_PARAMS}`;
-  },
-} as const;
-
-const APPLE_URL = {
-  AUTH(appleConfig: AppleAuthConfig, path: string): AppleAuth {
-    return new AppleAuth(appleConfig, path, 'text');
   },
 } as const;
 
@@ -73,4 +67,9 @@ const NAVER_URL = {
   },
 } as const;
 
+const APPLE_URL = {
+  AUTH(appleConfig: AppleAuthConfig, path: string): AppleAuth {
+    return new AppleAuth(appleConfig, path, 'text');
+  },
+} as const;
 export { KAKAO_URL, GOOGLE_URL, APPLE_URL, NAVER_URL };

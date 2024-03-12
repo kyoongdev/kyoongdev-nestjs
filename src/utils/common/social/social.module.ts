@@ -1,10 +1,16 @@
 import { DynamicModule, Module, Provider } from '@nestjs/common';
+import type {
+  AppleConfig,
+  GoogleConfig,
+  KakaoConfig,
+  NaverConfig,
+  SocialConfig,
+} from '../../interface/social.interface';
 import { AppleLogin } from './apple';
 import { APPLE_CONFIG, GOOGLE_CONFIG, KAKAO_CONFIG, NAVER_CONFIG } from './constant';
 import { GoogleLogin } from './google';
 import { KakaoLogin } from './kakao';
 import { NaverLogin } from './naver';
-import type { AppleConfig, GoogleConfig, KakaoConfig, NaverConfig, SocialConfig } from './type';
 
 @Module({
   providers: [KakaoLogin, AppleLogin, GoogleLogin, NaverLogin],

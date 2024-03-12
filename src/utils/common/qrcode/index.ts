@@ -7,18 +7,18 @@ interface QRCodeData {
   base64: Buffer;
 }
 
-interface IQrCode {
+interface QrCode {
   target: string;
   fileName: string | undefined;
 }
 
 interface QrCodesResponse {
   success: Array<QRCodeData>;
-  failure: Array<IQrCode>;
+  failure: Array<QrCode>;
 }
 @Injectable()
 class QrCode {
-  public async createQRCodeData(props: IQrCode): Promise<QRCodeData | undefined> {
+  public async createQRCodeData(props: QrCode): Promise<QRCodeData | undefined> {
     try {
       const qrCode = await QRCode.toDataURL(props.target, {
         errorCorrectionLevel: 'H',
@@ -38,7 +38,7 @@ class QrCode {
     }
   }
 
-  public async createQrCodesData(props: Array<IQrCode>): Promise<QrCodesResponse> {
+  public async createQrCodesData(props: Array<QrCode>): Promise<QrCodesResponse> {
     const result: QrCodesResponse = { success: [], failure: [] };
 
     for (const prop of props) {

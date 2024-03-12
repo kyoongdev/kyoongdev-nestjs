@@ -1,9 +1,11 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Inject, Injectable } from '@nestjs/common';
+
 import axios from 'axios';
 import type { Response } from 'express';
+
+import type { NaverConfig, NaverGetRestCallback, NaverToken, NaverUser } from '../../interface/social.interface';
+
 import { NAVER_CONFIG, NAVER_URL } from './constant';
-import type { NaverConfig, NaverGetRestCallback, NaverToken, NaverUser } from './type';
 
 @Injectable()
 class NaverLogin {

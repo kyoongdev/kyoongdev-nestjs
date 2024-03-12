@@ -1,11 +1,10 @@
 {
-  "name": "cumuco-nestjs",
-  "version": "1.2.2",
+  "name": "kyoongdev-nestjs",
+  "version": "1.3.0",
   "main": "build/index.js",
   "bin": "build/express/util/index.js",
   "license": "MIT",
-  "repository": "https://github.com/cumuco/cumuco-nestjs",
-  "author": "cumuco <dev@cumuco.net>",
+  "repository": "https://github.com/kyoongdev/kyoongdev-nestjs",
   "scripts": {
     "clear": "node scripts/clear-build.js",
     "build": "yarn clear && tsc -b && node scripts/copy-build.js",
@@ -45,6 +44,7 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
+    "nanoid": "3.3.4",
     "swagger-ui-express": "^4.5.0"
   },
   "devDependencies": {

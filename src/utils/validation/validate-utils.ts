@@ -33,9 +33,8 @@ export const ValidateOption = (
 ): PropertyDecorator => {
   return function (object: object, propertyName: string): void {
     if (validationOptions?.each && apiProperty.type && typeof apiProperty.type === 'function') {
-      //Validate Target
       TypeFormer(() => apiProperty.type as Function, typeOptions)(object, propertyName);
-      //ValidateNested
+
       ValidateNested(validationOptions)(object, propertyName);
     }
 
@@ -50,12 +49,6 @@ export const ValidateOption = (
     if (apiProperty.nullable) {
       IsOptional(validationOptions)(object, propertyName);
     }
-
-    // if (apiProperty.isArray) {
-    //   Transform(({ value }) =>
-    //     Array.isArray(value) ? value : typeof value === 'undefined' ? undefined : Array(value)
-    //   )(object, propertyName);
-    // }
 
     registerDecorator({
       name: options.name,
@@ -81,13 +74,13 @@ export const ValidateApiProperty = ({ apiProperty, validation }: ValidateProps):
   if (apiProperty.isArray) {
     validateByOptions = ValidateByOption({
       name: IS_ARRAY,
-      validate: (value, args): boolean => isArray(value),
+      validate: (value): boolean => isArray(value),
       defaultMessage: buildMessage((eachPrefix) => eachPrefix + '$property must be an array', validation),
     });
   } else if (typeof apiProperty.type === 'function') {
     validateByOptions = ValidateByOption({
       name: IS_OBJECT,
-      validate: (value, args): boolean => isObject(value),
+      validate: (value): boolean => isObject(value),
       defaultMessage: buildMessage((eachPrefix) => eachPrefix + '$property must be an object', validation),
     });
   } else if (apiProperty.type === 'number') {
@@ -102,13 +95,13 @@ export const ValidateApiProperty = ({ apiProperty, validation }: ValidateProps):
   } else if (apiProperty.type === 'boolean') {
     validateByOptions = ValidateByOption({
       name: IS_BOOLEAN,
-      validate: (value, args): boolean => isBoolean(value),
+      validate: (value): boolean => isBoolean(value),
       defaultMessage: buildMessage((eachPrefix) => eachPrefix + '$property must be a boolean value', validation),
     });
   } else if (apiProperty.type === 'date') {
     validateByOptions = ValidateByOption({
       name: IS_DATE,
-      validate: (value, args): boolean => isDate(value),
+      validate: (value): boolean => isDate(value),
       defaultMessage: buildMessage((eachPrefix) => eachPrefix + '$property must be a Date instance', validation),
     });
   } else if (apiProperty.type === 'enum' && apiProperty.enum) {

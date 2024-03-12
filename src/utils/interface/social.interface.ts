@@ -6,6 +6,11 @@ export interface AppleUser {
   name?: string;
 }
 
+export interface AppleConfig {
+  appleConfig: AppleAuthConfig;
+  path: string;
+}
+
 export interface NaverUser {
   id: string;
   name: string;
@@ -90,11 +95,6 @@ export interface NaverConfig {
   clientId: string;
   clientSecret: string | undefined;
   redirectUrl: string | undefined;
-}
-
-export interface AppleConfig {
-  appleConfig: AppleAuthConfig;
-  path: string;
 }
 
 export interface GoogleConfig {

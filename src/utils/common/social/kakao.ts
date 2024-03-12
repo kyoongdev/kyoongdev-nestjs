@@ -1,12 +1,12 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-import axios from 'axios';
-import queryString from 'query-string';
-
-import type { Response } from 'express';
-
 import { Inject, Injectable } from '@nestjs/common';
+
+import axios from 'axios';
+import type { Response } from 'express';
+import queryString from 'querystring';
+
+import type { KakaoConfig, KakaoGetRestCallback, KakaoGetUser } from '@/interface/social.interface';
+
 import { KAKAO_CONFIG, KAKAO_URL } from './constant';
-import type { KakaoConfig, KakaoGetRestCallback, KakaoGetUser } from './type';
 
 @Injectable()
 export class KakaoLogin {

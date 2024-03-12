@@ -2,7 +2,33 @@
 
 본 라이브러리는 **@nestjs/swagger**의 사용 간소화 및 기타 유틸성 기능을 제공하는 라이브러리입니다.
 
+프로젝트 세팅 시 필요한 기능을 제공합니다.
+
 ## Swagger
+
+** `스웨거 세팅방법` **
+
+```typescript
+const swaggerConfig = new DocumentBuilder()
+  .setTitle('제목')
+  .setDescription('설명')
+  .setVersion('1.0.0')
+  .addServer('서버 URL')
+  .addBearerAuth(
+    {
+      type: 'http',
+      scheme: 'bearer',
+      name: 'JWT',
+      in: 'header',
+    },
+    'access-token'
+  )
+  .build();
+
+const document = SwaggerModule.createDocument(app, swaggerConfig, {});
+
+SwaggerModule.setup('api-docs', app, document);
+```
 
 **`@RequestApi(swaggerOptions : SwaggerOptions)`**
 
@@ -37,9 +63,13 @@
 
 스웨거 및 인터셉터 파일 업로드
 
-**`@Auth(guard: Function, name = 'access-token')`**
+**`@Auth(guard: Function[], name = 'access-token')`**
 
 스웨거 및 UseGuards 가드 사용
+
+**`@ApiFile(fieldName = "file")`**
+
+Multi-Form 데이터 필요 시 사용
 
 **`@Property({ apiProperty = {}, validation, overrideExisting, typeOptions = {} }: PropertyProps)`**
 
@@ -58,10 +88,10 @@ DTO 스웨거 명세 및 Validation (class-transformer, class-validation)
 ```ts
 export class PagingDTO {
   @Property({ apiProperty: { type: 'number', minimum: 1, default: 1 } })
-  page?: number;
+  page: number;
 
-  @Property({ apiProperty: { type: 'number', minimum: 20, default: 20 } })
-  limit?: number;
+  @Property({ apiProperty: { type: 'number', minimum: 1, default: 20 } })
+  limit: number;
 
   constructor(page: number, limit: number) {
     this.page = page;
@@ -73,6 +103,13 @@ export class PagingDTO {
     const skip = (Number(this.page) - 1) * take;
 
     return { skip, take };
+  }
+
+  public getSqlPaging(): PagingDTO {
+    return {
+      ...this,
+      page: (this.page ? this.page - 1 : 1) * (this.limit || 1),
+    };
   }
 }
 ```

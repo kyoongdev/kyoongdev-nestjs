@@ -1,10 +1,11 @@
-import axios from 'axios';
+import { Inject, Injectable } from '@nestjs/common';
 
+import axios from 'axios';
 import type { Response } from 'express';
 
-import { Inject, Injectable } from '@nestjs/common';
+import type { GoogleConfig, GoogleGetRestCallback, GoogleUser } from '../../interface/social.interface';
+
 import { GOOGLE_CONFIG, GOOGLE_URL } from './constant';
-import type { GoogleConfig, GoogleGetRestCallback, GoogleUser } from './type';
 
 @Injectable()
 export class GoogleLogin {
@@ -23,7 +24,7 @@ export class GoogleLogin {
   }
 
   public async getToken(code: string): Promise<string | undefined> {
-    if (!this.props?.clientSecret || !this.props?.redirectUri || this.props?.clientId)
+    if (!this.props?.clientSecret || !this.props?.redirectUri || !this.props?.clientId)
       throw { status: 500, message: 'Google Client Secret or Redirect Url or ClientId is not defined' };
 
     const data = {
@@ -62,13 +63,10 @@ export class GoogleLogin {
   }
 
   static async getWebUser(token: string) {
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
     try {
-      const response = await axios.get(GOOGLE_URL.USER_WEB, { headers });
-      const { id, email, name: nickname, picture: profileImage } = response.data;
+      const response = await axios.get(`${GOOGLE_URL.USER_WEB}?access_token=${token}`, {});
 
+      const { id, email, name: nickname, picture: profileImage } = response.data;
       return {
         id,
         email,
@@ -77,13 +75,19 @@ export class GoogleLogin {
       };
     } catch (error: any) {
       const { response } = error;
+
       if (response.data.error === 'invalid_token') throw { status: 403, message: 'GOOGLE_TOKEN_EXPIRED' };
       return undefined;
     }
   }
   public async getRestCallback(code: string): Promise<GoogleGetRestCallback | undefined> {
     try {
-      const user = await GoogleLogin.getWebUser(code);
+      const token = await this.getToken(code);
+      if (!token) {
+        throw { status: 500, message: '구글 유저정보 발급 오류!' };
+      }
+      const user = await GoogleLogin.getWebUser(token);
+
       if (!user) {
         throw { status: 500, message: '구글 유저정보 발급 오류!' };
       }
