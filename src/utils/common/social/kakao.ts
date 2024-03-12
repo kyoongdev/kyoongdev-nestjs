@@ -4,7 +4,7 @@ import axios from 'axios';
 import type { Response } from 'express';
 import queryString from 'querystring';
 
-import type { KakaoConfig, KakaoGetRestCallback, KakaoGetUser } from '@/interface/social.interface';
+import type { KakaoConfig, KakaoGetRestCallback, KakaoGetUser } from '../../interface/social.interface';
 
 import { KAKAO_CONFIG, KAKAO_URL } from './constant';
 

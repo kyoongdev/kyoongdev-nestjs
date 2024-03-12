@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import admin from 'firebase-admin';
 import type { Notification, TokenMessage as FirebaseMessage } from 'firebase-admin/lib/messaging/messaging-api';
 
@@ -17,9 +18,9 @@ interface SendMessagesResponse {
 export class FirebaseMessaging {
   private app: admin.app.App;
 
-  constructor(serviceAccount: any) {
+  constructor(private readonly configService: ConfigService) {
     this.app = admin.initializeApp({
-      credential: admin.credential.cert(serviceAccount),
+      credential: admin.credential.cert(this.configService.get('FIRE_BASE_ACCOUNT') as string),
     });
   }
 

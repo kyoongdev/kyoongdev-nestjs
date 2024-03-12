@@ -4,8 +4,8 @@ import jwt from 'jsonwebtoken';
 import { Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
 
 import type { Response } from 'express';
+import type { AppleConfig, AppleUser } from '../../interface/social.interface';
 import { APPLE_CONFIG } from './constant';
-import type { AppleConfig, AppleUser } from './type';
 
 @Injectable()
 class AppleLogin {
