@@ -191,7 +191,7 @@ let SocialLocationService = class SocialLocationService {
             return { data: this.parseGoogleGeocode(response.data.results), count: response.data.results.length };
         });
     }
-    static getDistance({ target, current }) {
+    getDistance({ target, current }) {
         if (!target.latitude || !target.longitude)
             return 0;
         if (target.latitude === current.latitude && target.longitude === current.longitude)

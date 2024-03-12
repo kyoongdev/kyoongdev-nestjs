@@ -1,5 +1,5 @@
 import type { Response } from 'express';
-import type { GoogleConfig, GoogleGetRestCallback, GoogleUser } from './type';
+import type { GoogleConfig, GoogleGetRestCallback, GoogleUser } from '../../interface/social.interface';
 export declare class GoogleLogin {
     private readonly props;
     constructor(props: GoogleConfig | null);

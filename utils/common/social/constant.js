@@ -22,7 +22,7 @@ const KAKAO_URL = {
 exports.KAKAO_URL = KAKAO_URL;
 const GOOGLE_URL = {
     TOKEN: 'https://oauth2.googleapis.com/token',
-    USER_WEB: 'https://www.googleapis.com/oauth2/v2/userinfo',
+    USER_WEB: 'https://www.googleapis.com/userinfo/v2/me',
     USER_APP(id_token) {
         return 'https://oauth2.googleapis.com/tokeninfo?id_token=' + id_token;
     },
@@ -42,12 +42,6 @@ const GOOGLE_URL = {
     },
 };
 exports.GOOGLE_URL = GOOGLE_URL;
-const APPLE_URL = {
-    AUTH(appleConfig, path) {
-        return new apple_auth_1.default(appleConfig, path, 'text');
-    },
-};
-exports.APPLE_URL = APPLE_URL;
 const NAVER_URL = {
     USER: 'https://openapi.naver.com/v1/nid/me',
     UNLINK(client_id, client_secret, access_token) {
@@ -73,4 +67,10 @@ const NAVER_URL = {
     },
 };
 exports.NAVER_URL = NAVER_URL;
+const APPLE_URL = {
+    AUTH(appleConfig, path) {
+        return new apple_auth_1.default(appleConfig, path, 'text');
+    },
+};
+exports.APPLE_URL = APPLE_URL;
 //# sourceMappingURL=constant.js.map

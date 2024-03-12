@@ -1,5 +1,5 @@
 import type { Response } from 'express';
-import type { AppleConfig, AppleUser } from './type';
+import type { AppleConfig, AppleUser } from '../../interface/social.interface';
 declare class AppleLogin {
     private readonly appleConfig;
     private appleAuth;

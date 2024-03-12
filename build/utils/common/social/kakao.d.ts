@@ -1,5 +1,5 @@
 import type { Response } from 'express';
-import type { KakaoConfig, KakaoGetRestCallback, KakaoGetUser } from './type';
+import type { KakaoConfig, KakaoGetRestCallback, KakaoGetUser } from '../../interface/social.interface';
 export declare class KakaoLogin {
     private readonly props;
     constructor(props: KakaoConfig | null);

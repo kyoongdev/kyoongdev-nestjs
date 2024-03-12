@@ -42,14 +42,14 @@ const ValidateApiProperty = ({ apiProperty, validation }) => {
     if (apiProperty.isArray) {
         validateByOptions = (0, exports.ValidateByOption)({
             name: class_validator_1.IS_ARRAY,
-            validate: (value, args) => (0, class_validator_1.isArray)(value),
+            validate: (value) => (0, class_validator_1.isArray)(value),
             defaultMessage: (0, class_validator_1.buildMessage)((eachPrefix) => eachPrefix + '$property must be an array', validation),
         });
     }
     else if (typeof apiProperty.type === 'function') {
         validateByOptions = (0, exports.ValidateByOption)({
             name: class_validator_1.IS_OBJECT,
-            validate: (value, args) => (0, class_validator_1.isObject)(value),
+            validate: (value) => (0, class_validator_1.isObject)(value),
             defaultMessage: (0, class_validator_1.buildMessage)((eachPrefix) => eachPrefix + '$property must be an object', validation),
         });
     }
@@ -63,14 +63,14 @@ const ValidateApiProperty = ({ apiProperty, validation }) => {
     else if (apiProperty.type === 'boolean') {
         validateByOptions = (0, exports.ValidateByOption)({
             name: class_validator_1.IS_BOOLEAN,
-            validate: (value, args) => (0, class_validator_1.isBoolean)(value),
+            validate: (value) => (0, class_validator_1.isBoolean)(value),
             defaultMessage: (0, class_validator_1.buildMessage)((eachPrefix) => eachPrefix + '$property must be a boolean value', validation),
         });
     }
     else if (apiProperty.type === 'date') {
         validateByOptions = (0, exports.ValidateByOption)({
             name: class_validator_1.IS_DATE,
-            validate: (value, args) => (0, class_validator_1.isDate)(value),
+            validate: (value) => (0, class_validator_1.isDate)(value),
             defaultMessage: (0, class_validator_1.buildMessage)((eachPrefix) => eachPrefix + '$property must be a Date instance', validation),
         });
     }

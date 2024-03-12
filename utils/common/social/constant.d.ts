@@ -13,17 +13,17 @@ declare const KAKAO_URL: {
 };
 declare const GOOGLE_URL: {
     readonly TOKEN: "https://oauth2.googleapis.com/token";
-    readonly USER_WEB: "https://www.googleapis.com/oauth2/v2/userinfo";
+    readonly USER_WEB: "https://www.googleapis.com/userinfo/v2/me";
     readonly USER_APP: (id_token: string) => string;
     readonly AUTH: (client_id: string, redirect_uri: string) => string;
-};
-declare const APPLE_URL: {
-    readonly AUTH: (appleConfig: AppleAuthConfig, path: string) => AppleAuth;
 };
 declare const NAVER_URL: {
     readonly USER: "https://openapi.naver.com/v1/nid/me";
     readonly UNLINK: (client_id: string, client_secret: string, access_token: string) => string;
     readonly TOKEN: (client_id: string, client_secret: string, code: string) => string;
     readonly AUTH: (code: string | number, redirect_uri: string, client_id: string) => string;
+};
+declare const APPLE_URL: {
+    readonly AUTH: (appleConfig: AppleAuthConfig, path: string) => AppleAuth;
 };
 export { KAKAO_URL, GOOGLE_URL, APPLE_URL, NAVER_URL };

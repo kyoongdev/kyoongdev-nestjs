@@ -1,5 +1,5 @@
 import type { Response } from 'express';
-import type { NaverConfig, NaverGetRestCallback, NaverToken, NaverUser } from './type';
+import type { NaverConfig, NaverGetRestCallback, NaverToken, NaverUser } from '../../interface/social.interface';
 declare class NaverLogin {
     private readonly props;
     constructor(props: NaverConfig | null);

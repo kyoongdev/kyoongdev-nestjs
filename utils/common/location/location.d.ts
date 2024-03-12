@@ -23,6 +23,6 @@ declare class SocialLocationService {
         data: GoogleGeocodeResponse[];
         count: any;
     } | null>;
-    static getDistance({ target, current }: DistanceProps): number;
+    getDistance({ target, current }: DistanceProps): number;
 }
 export { SocialLocationService };

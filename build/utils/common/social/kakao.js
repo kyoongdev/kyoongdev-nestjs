@@ -26,9 +26,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 var KakaoLogin_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.KakaoLogin = void 0;
-const axios_1 = __importDefault(require("axios"));
-const query_string_1 = __importDefault(require("query-string"));
 const common_1 = require("@nestjs/common");
+const axios_1 = __importDefault(require("axios"));
+const querystring_1 = __importDefault(require("querystring"));
 const constant_1 = require("./constant");
 let KakaoLogin = KakaoLogin_1 = class KakaoLogin {
     constructor(props) {
@@ -72,7 +72,7 @@ let KakaoLogin = KakaoLogin_1 = class KakaoLogin {
             if (!((_a = this.props) === null || _a === void 0 ? void 0 : _a.restKey) || !this.props.secretKey || !this.props.redirectUrl) {
                 throw { status: 500, message: 'Kakao config is not defined' };
             }
-            const data = query_string_1.default.stringify({
+            const data = querystring_1.default.stringify({
                 grant_type: 'authorization_code',
                 client_id: this.props.restKey,
                 client_secret: this.props.secretKey,
@@ -122,7 +122,7 @@ let KakaoLogin = KakaoLogin_1 = class KakaoLogin {
                     Authorization: `KakaoAK ${adminKey !== null && adminKey !== void 0 ? adminKey : (_b = this.props) === null || _b === void 0 ? void 0 : _b.adminKey}`,
                     'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
                 };
-                const data = query_string_1.default.stringify({
+                const data = querystring_1.default.stringify({
                     target_id_type: 'user_id',
                     target_id: id,
                 });

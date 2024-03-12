@@ -43,7 +43,11 @@ const Property = ({ apiProperty = {}, validation, overrideExisting, typeOptions 
     const [type, isArray] = (0, swagger_1.getTypeIsArrayTuple)(apiProperty.type, (_a = apiProperty.isArray) !== null && _a !== void 0 ? _a : false);
     apiProperty = Object.assign(Object.assign({}, apiProperty), { type,
         isArray });
-    if (apiProperty.nullable && typeof apiProperty.type === 'string' && !apiProperty.example && !apiProperty.isArray) {
+    if (!apiProperty.enum &&
+        apiProperty.nullable &&
+        typeof apiProperty.type === 'string' &&
+        !apiProperty.example &&
+        !apiProperty.isArray) {
         apiProperty.example = `${apiProperty.type} | null`;
     }
     apiProperty.required = !apiProperty.nullable;

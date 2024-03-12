@@ -30,11 +30,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FirebaseMessaging = void 0;
 const common_1 = require("@nestjs/common");
+const config_1 = require("@nestjs/config");
 const firebase_admin_1 = __importDefault(require("firebase-admin"));
 let FirebaseMessaging = class FirebaseMessaging {
-    constructor(serviceAccount) {
+    constructor(configService) {
+        this.configService = configService;
         this.app = firebase_admin_1.default.initializeApp({
-            credential: firebase_admin_1.default.credential.cert(serviceAccount),
+            credential: firebase_admin_1.default.credential.cert(this.configService.get('FIRE_BASE_ACCOUNT')),
         });
     }
     sendMessage({ token, notification }) {
@@ -91,7 +93,7 @@ let FirebaseMessaging = class FirebaseMessaging {
 };
 FirebaseMessaging = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [Object])
+    __metadata("design:paramtypes", [config_1.ConfigService])
 ], FirebaseMessaging);
 exports.FirebaseMessaging = FirebaseMessaging;
 //# sourceMappingURL=index.js.map

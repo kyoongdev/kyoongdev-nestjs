@@ -26,8 +26,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 var GoogleLogin_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GoogleLogin = void 0;
-const axios_1 = __importDefault(require("axios"));
 const common_1 = require("@nestjs/common");
+const axios_1 = __importDefault(require("axios"));
 const constant_1 = require("./constant");
 let GoogleLogin = GoogleLogin_1 = class GoogleLogin {
     constructor(props) {
@@ -46,7 +46,7 @@ let GoogleLogin = GoogleLogin_1 = class GoogleLogin {
     getToken(code) {
         var _a, _b, _c, _d;
         return __awaiter(this, void 0, void 0, function* () {
-            if (!((_a = this.props) === null || _a === void 0 ? void 0 : _a.clientSecret) || !((_b = this.props) === null || _b === void 0 ? void 0 : _b.redirectUri) || ((_c = this.props) === null || _c === void 0 ? void 0 : _c.clientId))
+            if (!((_a = this.props) === null || _a === void 0 ? void 0 : _a.clientSecret) || !((_b = this.props) === null || _b === void 0 ? void 0 : _b.redirectUri) || !((_c = this.props) === null || _c === void 0 ? void 0 : _c.clientId))
                 throw { status: 500, message: 'Google Client Secret or Redirect Url or ClientId is not defined' };
             const data = {
                 client_id: this.props.clientId,
@@ -86,11 +86,8 @@ let GoogleLogin = GoogleLogin_1 = class GoogleLogin {
     }
     static getWebUser(token) {
         return __awaiter(this, void 0, void 0, function* () {
-            const headers = {
-                Authorization: `Bearer ${token}`,
-            };
             try {
-                const response = yield axios_1.default.get(constant_1.GOOGLE_URL.USER_WEB, { headers });
+                const response = yield axios_1.default.get(`${constant_1.GOOGLE_URL.USER_WEB}?access_token=${token}`, {});
                 const { id, email, name: nickname, picture: profileImage } = response.data;
                 return {
                     id,
@@ -110,7 +107,11 @@ let GoogleLogin = GoogleLogin_1 = class GoogleLogin {
     getRestCallback(code) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const user = yield GoogleLogin_1.getWebUser(code);
+                const token = yield this.getToken(code);
+                if (!token) {
+                    throw { status: 500, message: '구글 유저정보 발급 오류!' };
+                }
+                const user = yield GoogleLogin_1.getWebUser(token);
                 if (!user) {
                     throw { status: 500, message: '구글 유저정보 발급 오류!' };
                 }

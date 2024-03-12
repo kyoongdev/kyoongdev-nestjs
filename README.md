@@ -8,7 +8,7 @@
 
 ## Swagger
 
-** `스웨거 세팅방법` **
+### 스웨거 세팅방법
 
 ```typescript
 const swaggerConfig = new DocumentBuilder()
@@ -151,7 +151,7 @@ async function example(@Paging() paging: PagingDTO) {}
 
 ### Exception
 
-** `CommonException` **
+### CommonException
 
 ```typescript
 export class CommonException extends HttpException {
@@ -180,7 +180,7 @@ export const AUTH_ERROR_CODE: ErrorCode<typeof AUTH_ERROR> = {
 throw CommonException(AUTH_ERROR_CODE.WRONG_ACCESS_TOKEN);
 ```
 
-** `HttpExceptionFilter` **
+### HttpExceptionFilter
 
 Http 관련 Exception을 처리할 수 있는 Filter
 
@@ -219,7 +219,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
 파이어베이스 기반 푸시 알림 설정
 
-** `FirebaseMessaging` **
+### FirebaseMessaging
 
 ```ts
 @Injectable()
@@ -270,7 +270,7 @@ env에 "FIRE_BASE_ACCOUNT"를 통해 인증 정보가 있는 파일의 경로를
 
 jwt 토큰을 생성, 검증할 수 있습니다.
 
-** `JwtProvider` **
+### JwtProvider
 
 ```ts
 @Injectable()
@@ -326,7 +326,7 @@ env에 ACCESS_TOKEN_EXPIRES_IN 혹은 REFRESH_TOKEN_EXPIRES_IN을 설정 시 설
 
 - 각 서비스의 API 명세가 변경될 경우 작동하지 않을 수 있습니다.
 
-** `SocialLocationModule` **
+### SocialLocationModule
 
 ```ts
 @Module({
@@ -365,7 +365,7 @@ export interface LocationProps {
 }
 ```
 
-** `SocialLocationService` **
+### SocialLocationService
 
 `getNaverLocation(params: NaverGeocodeQuery,config?: NaverLocationConfig): Promise<NaverGeocodeResponse>`
 
@@ -395,7 +395,7 @@ export interface LocationProps {
 
 QrCode를 생성할 수 있는 Provider입니다.
 
-** `QrCode` **
+### QrCode
 
 `createQRCodeData(props: QrCode): Promise<QRCodeData | undefined>`
 
@@ -409,7 +409,7 @@ QrCode 여러 개 생성
 
 소셜 로그인 관련 통합 모듈입니다. (Naver, Kakao, Google, Apple 포함)
 
-** `SocialLoginModule` **
+### SocialLoginModule
 
 ```ts
 export interface NaverConfig {
@@ -447,7 +447,7 @@ export interface AppleConfig {
 SocialLoginModule.forRoot(config: SocialConfig = {})
 ```
 
-** `NaverLogin` **
+### NaverLogin
 
 `getRest(res: Response, code: string, redirectUrl?: string)`
 
@@ -465,7 +465,7 @@ redirectUrl로 redirect
 
 로그인 성공 후 네이버 유저 정보 반황
 
-** `KakaoLogin` **
+### KakaoLogin
 
 `getRest(res: Response, redirectUrl?: string)`
 
@@ -483,7 +483,7 @@ redirectUrl로 redirect
 
 로그인 성공 후 카카오 유저 정보 반환
 
-** `GoogleLogin` **
+### GoogleLogin
 
 `public getRest(res: Response, redirectUrl?: string)`
 
@@ -505,7 +505,7 @@ redirectUrl로 redirect
 
 로그인 성공 후 구글 유저 정보 반환
 
-** `Apple Login` **
+### Apple Login
 
 애플 로그인은 HTTPS 설정이 완료되어야 사용 가능합니다.
 
