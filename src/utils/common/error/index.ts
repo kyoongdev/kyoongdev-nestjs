@@ -57,4 +57,6 @@ export interface BaseErrorCode {
   code: HttpStatus[keyof HttpStatus];
 }
 
-export type ErrorCode = Record<string, (message?: string) => BaseErrorCode>;
+export type ErrorCode<T extends object> = {
+  [K in keyof T]: BaseErrorCode;
+};
