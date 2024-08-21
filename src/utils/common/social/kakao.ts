@@ -4,12 +4,12 @@ import axios from 'axios';
 import type { Response } from 'express';
 import queryString from 'querystring';
 
-import type { KakaoConfig, KakaoGetRestCallback, KakaoGetUser } from '../../interface/social.interface';
+import type { KakaoConfig, KakaoGetRestCallback, KakaoGetUser, SocialLogin } from '../../interface/social.interface';
 
 import { KAKAO_CONFIG, KAKAO_URL } from './constant';
 
 @Injectable()
-export class KakaoLogin {
+export class KakaoLogin implements SocialLogin {
   constructor(@Inject(KAKAO_CONFIG) private readonly props: KakaoConfig | null) {}
 
   public getRest(res: Response, redirectUrl?: string) {
@@ -24,7 +24,7 @@ export class KakaoLogin {
     res.redirect(KAKAO_URL.AUTH(this.props.restKey, redirectUrl ?? this.props.redirectUrl!));
   }
 
-  static async getUser(token: string): Promise<KakaoGetUser | undefined> {
+  public async getUser(token: string): Promise<KakaoGetUser | undefined> {
     const headers = {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
@@ -80,7 +80,7 @@ export class KakaoLogin {
         throw { status: 400, message: '카카오 토큰 발급 오류!' };
       }
 
-      const user = await KakaoLogin.getUser(token);
+      const user = await this.getUser(token);
       if (!user) {
         throw { status: 500, message: '카카오 유저정보 발급 오류!' };
       }

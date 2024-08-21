@@ -3,13 +3,24 @@ import { Inject, Injectable } from '@nestjs/common';
 import axios from 'axios';
 import type { Response } from 'express';
 
-import type { GoogleConfig, GoogleGetRestCallback, GoogleUser } from '../../interface/social.interface';
+import type {
+  AppleUser,
+  GoogleConfig,
+  GoogleGetRestCallback,
+  GoogleUser,
+  KakaoGetUser,
+  NaverUser,
+  SocialLogin,
+} from '../../interface/social.interface';
 
 import { GOOGLE_CONFIG, GOOGLE_URL } from './constant';
 
 @Injectable()
-export class GoogleLogin {
+export class GoogleLogin implements SocialLogin {
   constructor(@Inject(GOOGLE_CONFIG) private readonly props: GoogleConfig | null) {}
+  getUser(token: string): Promise<GoogleGetRestCallback | KakaoGetUser | NaverUser | AppleUser | undefined> {
+    throw new Error('Method not implemented.');
+  }
 
   public getRest(res: Response, redirectUrl?: string) {
     if (!this.props?.redirectUri && !redirectUrl) {
@@ -44,7 +55,7 @@ export class GoogleLogin {
     }
   }
 
-  static async getAppUser(token: string): Promise<GoogleUser | undefined> {
+  public async getAppUser(token: string): Promise<GoogleUser | undefined> {
     try {
       const response = await axios.get(GOOGLE_URL.USER_APP(token));
       const { id, email, name: nickname, picture: profileImage } = response.data;
@@ -62,7 +73,7 @@ export class GoogleLogin {
     }
   }
 
-  static async getWebUser(token: string) {
+  public async getWebUser(token: string) {
     try {
       const response = await axios.get(`${GOOGLE_URL.USER_WEB}?access_token=${token}`, {});
 
@@ -86,7 +97,7 @@ export class GoogleLogin {
       if (!token) {
         throw { status: 500, message: '구글 유저정보 발급 오류!' };
       }
-      const user = await GoogleLogin.getWebUser(token);
+      const user = await this.getWebUser(token);
 
       if (!user) {
         throw { status: 500, message: '구글 유저정보 발급 오류!' };

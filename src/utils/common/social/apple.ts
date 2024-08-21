@@ -4,14 +4,17 @@ import jwt from 'jsonwebtoken';
 import { Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
 
 import type { Response } from 'express';
-import type { AppleConfig, AppleUser } from '../../interface/social.interface';
+import type { AppleConfig, AppleUser, SocialLogin } from '../../interface/social.interface';
 import { APPLE_CONFIG } from './constant';
 
 @Injectable()
-class AppleLogin {
+class AppleLogin implements SocialLogin {
   private appleAuth: AppleAuth;
   constructor(@Inject(APPLE_CONFIG) private readonly appleConfig: AppleConfig | null) {
     this.appleAuth = this.setAppleAuth();
+  }
+  getToken(code: string, redirectUrl?: string): Promise<string | undefined> {
+    throw new Error('Method not implemented.');
   }
 
   private setAppleAuth() {
@@ -30,7 +33,7 @@ class AppleLogin {
     res.redirect(this.appleAuth.loginURL());
   }
 
-  static async getUser(id_token: string): Promise<AppleUser | undefined> {
+  public async getUser(id_token: string): Promise<AppleUser | undefined> {
     try {
       const idToken = jwt.decode(id_token) as {
         sub: string;
@@ -50,7 +53,7 @@ class AppleLogin {
 
   public async getRestCallback(code: string): Promise<AppleUser | undefined> {
     try {
-      const user = await AppleLogin.getUser(code);
+      const user = await this.getUser(code);
 
       if (!user) throw { status: 500, message: '애플 유저 정보 발급 오류!' };
 

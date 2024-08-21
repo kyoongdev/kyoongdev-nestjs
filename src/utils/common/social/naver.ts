@@ -3,12 +3,18 @@ import { Inject, Injectable } from '@nestjs/common';
 import axios from 'axios';
 import type { Response } from 'express';
 
-import type { NaverConfig, NaverGetRestCallback, NaverToken, NaverUser } from '../../interface/social.interface';
+import type {
+  NaverConfig,
+  NaverGetRestCallback,
+  NaverToken,
+  NaverUser,
+  SocialLogin,
+} from '../../interface/social.interface';
 
 import { NAVER_CONFIG, NAVER_URL } from './constant';
 
 @Injectable()
-class NaverLogin {
+class NaverLogin implements SocialLogin {
   constructor(@Inject(NAVER_CONFIG) private readonly props: NaverConfig | null) {}
 
   public getRest(res: Response, code: string, redirectUrl?: string) {
@@ -19,7 +25,7 @@ class NaverLogin {
     res.redirect(NAVER_URL.AUTH(code, redirectUrl ?? this.props.redirectUrl!, this.props.clientId));
   }
 
-  static async getUser(token: string): Promise<NaverUser | undefined> {
+  public async getUser(token: string): Promise<NaverUser | undefined> {
     const headers = {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
@@ -59,7 +65,7 @@ class NaverLogin {
         throw { status: 400, message: '네이버 토큰 발급 오류!' };
       }
 
-      const user = await NaverLogin.getUser(tokenInfo.token);
+      const user = await this.getUser(tokenInfo.token);
       if (!user) {
         throw { status: 500, message: '네이버 유저정보 발급 오류!' };
       }

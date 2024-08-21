@@ -1,4 +1,5 @@
 import type { AppleAuthConfig } from 'apple-auth';
+import { Response } from 'express';
 
 export interface AppleUser {
   id: string;
@@ -115,4 +116,13 @@ export interface SocialConfig {
   google?: GoogleConfig;
   naver?: NaverConfig;
   apple?: AppleConfig;
+}
+
+export interface SocialLogin {
+  getRest(res: Response, redirectUrl?: string): void;
+  getUser(token: string): Promise<GoogleGetRestCallback | KakaoGetUser | NaverUser | AppleUser | undefined>;
+  getToken(code: string, redirectUrl?: string): Promise<NaverToken | string | undefined>;
+  getRestCallback(
+    code: string
+  ): Promise<GoogleGetRestCallback | KakaoGetRestCallback | NaverGetRestCallback | AppleUser | undefined>;
 }
